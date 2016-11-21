@@ -60,7 +60,7 @@ export default class Topics extends React.Component {
 			const month = Math.floor(time / 1000 / 3600 / 24 / 30) + '个月前'
 			const day = Math.floor(time / 1000 / 3600 / 24) + '天前'
 			const hour = Math.floor(time / 1000 / 3600) + '小时前'
-			const min = Math.ceil(time / 1000 / 60) + '分钟前'
+			const min = (Math.floor(time / 1000 / 60) ? Math.floor(time / 1000 / 60) : 0) + '分钟前'
 			const top = !value.top || <span style={style.hot}>置顶</span>
 			const good = !value.good || <span style={style.hot}>精华</span>
 			let distance = (parseInt(year, 10) ? year : '') || (parseInt(month, 10) ? month : '') || (parseInt(day, 10) ? day : '') || (parseInt(hour, 10) ? hour : '') || min

@@ -6,8 +6,7 @@ const initialState = {
 	tab: '',
 	username: '',
 	login: '',
-	collect: false,
-	cancelCollect: false,
+	collect: '',
 	collections: [],
 	userinfo: {}
 }
@@ -52,7 +51,7 @@ export default function cnode(state = initialState, action) {
 		case 'COLLECT_CANCEL':
 			return ({
 				...state,
-				cancelCollect: action.cancelCollect
+				collect: action.cancelCollect
 			})
 		case 'GET_COLLECTION':
 			return ({

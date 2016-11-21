@@ -97,7 +97,8 @@ export const collect = (id, acc) => dispatch => {
     .then(function(response) {
       if (response.status === 200) {
         dispatch({
-          type: 'COLLECT_SUCC'
+          type: 'COLLECT_SUCC',
+          collect: 'collect'
         })
       }
     })
@@ -117,7 +118,8 @@ export const cancelCollect = (id, acc) => dispatch => {
     .then(function(response) {
       if (response.status === 200) {
         dispatch({
-          type: 'COLLECT_CANCEL'
+          type: 'COLLECT_CANCEL',
+          cancelCollect: 'noCollect'
         })
       }
     })

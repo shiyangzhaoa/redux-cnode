@@ -297,16 +297,18 @@ class Detail extends React.Component {
 
 	componentWillReceiveProps = (nextProps) => {
 		const loginname = localStorage.getItem("loginname") || ''
+		const collectNow = this.props.state.cnode.collect
+		const collectNext = nextProps.state.cnode.collect
 		if (loginname) {
-			if (this.props.state.cnode.topic.is_collect === nextProps.state.cnode.topic.is_collect) {
+			if (collectNow !== collectNext) {
 				const {
 					topicDetail,
 					route
 				} = nextProps
 				topicDetail(route.params.id)
 			}
+			console.log(this.props.state.cnode, nextProps.state.cnode)
 		}
-		console.log(this.props.state.cnode.topic.is_collect, nextProps.state.cnode.topic.is_collect)
 	}
 
 	collect = () => {

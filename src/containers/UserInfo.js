@@ -142,7 +142,7 @@ export class UserInfo extends React.Component {
 					</div>
 					<div style={style.content}>
 						<p style={style.title}>最近创建的话题</p>
-						{recent_topics===0 ? <div style={style.no}>无话题</div> : <Topics topics={recent_topics} actions={actions} />}
+						{recent_topics.length===0 ? <div style={style.no}>无话题</div> : <Topics topics={recent_topics} actions={actions} />}
 					</div>
 					<div style={style.content}>
 						<p style={style.title}>最近参与的话题</p>

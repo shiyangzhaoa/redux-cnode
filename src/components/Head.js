@@ -55,7 +55,7 @@ const style = {
 		float: 'right'
 	},
 	collectionList: {
-		padding: '10px',
+		padding: '5px 0',
 		textAlign: 'center',
 		backgroundColor: '#f2f2f2',
 		marginTop: '10px',
@@ -209,6 +209,7 @@ export class Head extends React.Component {
 	        	<Button type="primary">{username || '未登录'}</Button>
 	      	</Popover>
 	      	{ !username || <Link to={`/collect/${username}`}><div style={style.collectionList}>收藏列表</div></Link>}
+	      	{ !username || <Link to={`/userinfo/${username}`}><div style={style.collectionList}>个人信息</div></Link>}
       	</div>
       	<div style={style.signIn} >
       		{this.state.form ? <HorizontalLoginForm /> : ''}
