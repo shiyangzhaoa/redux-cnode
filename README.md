@@ -1,18 +1,17 @@
-# Redux TodoMVC Example
+# 感谢cnode中文社区提供的api
 
-This project template was built with [Create React App](https://github.com/facebookincubator/create-react-app).
+
 
 ## Available Scripts
 
-In the project directory, you can run:
+通过以下命令
 
 ### `npm start`
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+运行项目<br>
+在浏览器中打开 [http://localhost:3000](http://localhost:3000) 
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+以下内容完全拷贝自redux官方实例...
 
 ### `npm run build`
 
