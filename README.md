@@ -11,12 +11,11 @@
 运行项目<br>
 在浏览器中打开 [http://localhost:3000](http://localhost:3000) 
 
-以下内容完全拷贝自redux官方实例...
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+构建到build文件<br>
+
 
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
