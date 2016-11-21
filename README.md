@@ -2,7 +2,7 @@
 
 
 
-## Available Scripts
+## 可使用命令
 
 通过以下命令
 
