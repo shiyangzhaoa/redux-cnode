@@ -10,7 +10,8 @@ import {
 import Topics from '../components/Topics'
 import * as Actions from '../actions'
 import {
-  Pagination
+  Pagination,
+  Spin
 } from 'antd'
 import {
   browserHistory
@@ -36,7 +37,6 @@ export class App extends React.Component {
     const slug = nextProps.params.categorySlug
     const nextSlug = slug ? slug : 'all'
 
-    console.log(nextSlug, )
     if (this.getPageNow() !== nextParam) {
       this.props.actions.getTopics({
         page: nextParam,
@@ -75,13 +75,16 @@ export class App extends React.Component {
       state,
       actions
     } = this.props
+    console.log(state)
     return (
+      <Spin tip="Loading..." spinning={state.cnode.isLoading}>
       <div>
         <Topics topics={state.cnode.topicList} actions={actions} />
         <div>
           <Pagination current={this.getPageNow()} pageSize={this.props.state.cnode.limit} total={500} onChange={this.onChange} />
        </div>
      </div>
+     </Spin>
     )
   }
 }

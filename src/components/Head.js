@@ -12,7 +12,8 @@ import {
 	Input,
 	Button,
 	Popover,
-	BackTop
+	BackTop,
+	Spin
 } from 'antd'
 const FormItem = Form.Item
 
@@ -112,11 +113,6 @@ export class Head extends React.Component {
 		if (this.props.state.cnode.login !== nextProps.state.cnode.login && nextProps.state.cnode.login === 'fail') {
 			alert("access token错误")
 		}
-		if (this.props.state.cnode.login !== nextProps.state.cnode.login && nextProps.state.cnode.login === '') {
-			this.setState({
-				loginname: ''
-			})
-		}
 		if (this.props.state.cnode.login !== nextProps.state.cnode.login && nextProps.state.cnode.login === 'leave') {
 			this.setState({
 				loginname: ''
@@ -206,10 +202,14 @@ export class Head extends React.Component {
 	        	visible={this.state.visible}
 	        	onVisibleChange={this.handleVisibleChange}
 	      	>
+	      	
 	        	<Button type="primary">{username || '未登录'}</Button>
+	        
 	      	</Popover>
+	      	<Spin tip="登陆中..." spinning={this.props.state.cnode.userlogin}>
 	      	{ !username || <Link to={`/collect/${username}`}><div style={style.collectionList}>收藏列表</div></Link>}
 	      	{ !username || <Link to={`/userinfo/${username}`}><div style={style.collectionList}>个人信息</div></Link>}
+	      	</Spin>
       	</div>
       	<div style={style.signIn} >
       		{this.state.form ? <HorizontalLoginForm /> : ''}

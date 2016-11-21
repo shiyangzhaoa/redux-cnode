@@ -8,7 +8,9 @@ const initialState = {
 	login: '',
 	collect: '',
 	collections: [],
-	userinfo: {}
+	userinfo: {},
+	isLoading: true,
+	userlogin: false
 }
 
 export default function cnode(state = initialState, action) {
@@ -19,7 +21,13 @@ export default function cnode(state = initialState, action) {
 				topicList: action.list,
 				page: action.pageNumb,
 				limit: action.limit,
-				tab: action.tab
+				tab: action.tab,
+				isLoading: action.loading
+			})
+		case 'GET_TOPICS_LOADING':
+			return ({
+				...state,
+				isLoading: action.loading
 			})
 		case 'GET_TOPIC_DETAIL':
 			return ({
@@ -30,12 +38,19 @@ export default function cnode(state = initialState, action) {
 			return ({
 				...state,
 				loginname: action.name,
-				login: action.end
+				login: action.end,
+				userlogin: action.login
+			})
+		case 'LOGIN_USER_LOADING':
+			return ({
+				...state,
+				userlogin: action.login
 			})
 		case 'LOGIN_FAIL':
 			return ({
 				...state,
-				login: action.end
+				login: action.end,
+				userlogin: action.login
 			})
 		case 'SIGN_OUT':
 			return ({
