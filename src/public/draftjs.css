@@ -1,0 +1,76 @@
+.title {
+  font-family: 'Raleway';
+  color: #000;
+}
+
+.control-box {
+  background: url(../../public/draftBg.jpg) center/ cover;
+  border: 1px solid #222;
+  padding: 15px;
+  border-radius: 5px 5px 0 0;
+}
+
+.RichEditor-root {
+  background: rgba(250, 250, 250, .7);
+  border: 1px solid #999;
+  font-family: 'Source Serif Pro', serif;
+  font-size: 14px;
+  padding: 15px;
+  height: 45vh;
+  border-radius: 0 0 5px 5px;
+}
+
+.RichEditor-editor {
+  color: #000;
+  cursor: text;
+  font-size: 16px;
+}
+
+.RichEditor-editor .public-DraftEditorPlaceholder-root,
+.RichEditor-editor .public-DraftEditor-content {
+  margin: 0 -15px -15px;
+  padding: 15px;
+}
+
+.RichEditor-editor .public-DraftEditor-content {
+  min-height: 100px;
+}
+
+.RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
+  display: none;
+}
+
+.RichEditor-editor .RichEditor-blockquote {
+  border-left: 5px solid #eee;
+  color: #000;
+  font-family: 'Source Sans Pro';
+  font-style: italic;
+  margin: 16px 0;
+  padding: 10px 20px;
+}
+
+.RichEditor-editor .public-DraftStyleDefault-pre {
+  background-color: rgba(0, 0, 0, 0.05);
+  font-family: 'Source Code Pro';
+  font-size: 16px;
+}
+
+.RichEditor-controls {
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  margin-bottom: 5px;
+  user-select: none;
+}
+
+.RichEditor-styleButton {
+  color: #000;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 16px;
+  padding: 2px 2px;
+}
+
+.RichEditor-activeButton {
+  color: orangered;
+  border-radius: 3px;
+}
