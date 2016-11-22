@@ -79,7 +79,7 @@ export class App extends React.Component {
     return (
       <Spin tip="Loading..." spinning={state.cnode.isLoading}>
       <div>
-        <Topics topics={state.cnode.topicList} actions={actions} />
+        <Topics topics={state.cnode.topicList} actions={actions} sluge={this.getSlug()} />
         <div>
           <Pagination current={this.getPageNow()} pageSize={this.props.state.cnode.limit} total={500} onChange={this.onChange} />
        </div>

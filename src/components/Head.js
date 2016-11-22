@@ -104,6 +104,7 @@ export class Head extends React.Component {
 				selected: nextSlug
 			})
 		}
+		console.log(this.props.state.cnode.login, nextProps.state.cnode.login)
 		if (this.props.state.cnode.login !== nextProps.state.cnode.login && nextProps.state.cnode.login === 'success') {
 			this.setState({
 				form: false,
