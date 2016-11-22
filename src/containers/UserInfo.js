@@ -100,13 +100,20 @@ export class UserInfo extends React.Component {
 		this.getUserInfo(loginname)
 	}
 
+	componentWillReceiveProps = (nextProps) => {
+		let nextLoginName = nextProps.routeParams.loginname
+		let nowLoginName = this.props.routeParams.loginname
+		if (nextLoginName !== nowLoginName) {
+			this.getUserInfo(nextLoginName)
+		}
+	}
+
 	//获取用户信息
 	getUserInfo = (loginname) => {
 		this.props.actions.getUserInfo(loginname)
 	}
 
 	render() {
-		console.log(this.props)
 		const {
 			state,
 			actions
@@ -151,7 +158,7 @@ export class UserInfo extends React.Component {
 	     		</div>
 	     		<div style={style.user}>
 					<p style={style.title}>个人信息</p>
-		<div style={style.userHome}>
+						<div style={style.userHome}>
 							<div style={style.useravatar}>
 								<img style={style.avatarbig} src={userinfo.avatar_url} alt="user" />
 								<span style={style.namesbig}>{userinfo.loginname}</span>
