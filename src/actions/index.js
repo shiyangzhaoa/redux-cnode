@@ -227,10 +227,37 @@ export const getMrakAll = (acc) => dispatch => {
       accesstoken: acc
     })
     .then(function(response) {
-      console.log(response)
       if (response.status === 200) {
         dispatch({
           type: 'MARK_ALL'
+        })
+      }
+    })
+    .catch(function(error) {
+      console.log(error)
+    })
+}
+
+//提交评论
+let defaultRep = {
+  id: '',
+  accesstoken: '',
+  content: ''
+}
+export const addReplies = (query =
+  defaultRep) => dispatch => {
+  const url = `https://cnodejs.org/api/v1/topic/${query.id}/replies`
+  const queryNow = {
+    ...defaultRep,
+    ...query
+  }
+  axios.post(url, queryNow)
+    .then(function(response) {
+      console.log(response)
+      if (response.status === 200) {
+        dispatch({
+          type: 'REPLIE_SUCC',
+          rep_succ: 'success'
         })
       }
     })

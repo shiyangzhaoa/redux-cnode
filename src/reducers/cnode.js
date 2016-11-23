@@ -10,7 +10,8 @@ const initialState = {
 	collections: [],
 	userinfo: {},
 	isLoading: true,
-	userlogin: false
+	userlogin: false,
+	rep_succ: ''
 }
 
 export default function cnode(state = initialState, action) {
@@ -77,6 +78,11 @@ export default function cnode(state = initialState, action) {
 			return ({
 				...state,
 				userinfo: action.userinfo
+			})
+		case 'REPLIE_SUCC':
+			return ({
+				...state,
+				rep_succ: action.rep_succ
 			})
 		default:
 			return state

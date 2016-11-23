@@ -113,16 +113,16 @@ export class Head extends React.Component {
 				selected: nextSlug
 			})
 		}
-		if (this.props.state.cnode.login !== nextProps.state.cnode.login && nextProps.state.cnode.login === 'success') {
+		if (nextProps.state.cnode.login === 'success') {
 			this.setState({
 				form: false,
 				loginname: nextProps.state.cnode.loginname
 			})
 		}
-		if (this.props.state.cnode.login !== nextProps.state.cnode.login && nextProps.state.cnode.login === 'fail') {
+		if (nextProps.state.cnode.login === 'fail') {
 			alert("access token错误")
 		}
-		if (this.props.state.cnode.login !== nextProps.state.cnode.login && nextProps.state.cnode.login === 'leave') {
+		if (nextProps.state.cnode.login === 'leave') {
 			this.setState({
 				loginname: ''
 			})
@@ -218,7 +218,7 @@ export class Head extends React.Component {
 	      	</Popover>
 	      	<Spin tip="登陆中..." spinning={this.props.state.cnode.userlogin}>
 	      	{ !username || <Link to={`/collect/${username}`}><div style={style.collectionList}>收藏列表</div></Link>}
-	      	{ !username || <Link to={`/userinfo/${username}`}><div style={style.collectionList}>个人信息</div></Link>}
+	      	{ !username || <Link to={`/user/${username}`}><div style={style.collectionList}>个人信息</div></Link>}
 	      	</Spin>
       	</div>
       	<div style={style.signIn} >
@@ -235,7 +235,7 @@ export class Head extends React.Component {
 	    	
 	    }
 	    )}
-		<Link to='/message' style={style.message} >未读信息{this.props.state.message.messageNum ? `$(this.props.state.message.messageNum)` : ''}</Link>
+		{ !username || <Link to='/message' style={style.message} >未读信息{this.props.state.message.messageNum ? `$(this.props.state.message.messageNum)` : ''}</Link>}
 			</div>
       		{this.props.children}
       	</div>

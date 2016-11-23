@@ -5,13 +5,19 @@ import {
 import * as TodoActions from '../actions'
 import ReactMarkdown from 'react-markdown'
 import {
-	Button
+	Button,
+	Input,
+	Form,
+	message
 } from 'antd'
 import {
 	Editor,
 	EditorState,
 	RichUtils
 } from 'draft-js'
+import {
+	Link
+} from 'react-router'
 
 require("../public/draftjs.css")
 
@@ -48,7 +54,7 @@ const style = {
 		float: 'right'
 	},
 	content: {
-		width: '70%',
+		width: '85%',
 		margin: '30px auto',
 		borderRadius: '5px',
 		backgroundColor: '#fff',
@@ -57,6 +63,26 @@ const style = {
 		padding: '10px',
 		backgroundColor: '#f6f6f6',
 		borderRadius: '5px 5px 0 0',
+		fontSize: '14px'
+	},
+	apl_content: {
+		display: 'inline-block',
+		fontSize: '14px'
+	},
+	imginfo: {
+		width: '30px',
+		height: '30px',
+		float: 'left'
+	},
+	apl_box: {
+		padding: '10px',
+		borderTop: '1px solid #f0f0f0',
+		position: 'relative'
+	},
+	content_text: {
+		marginLeft: '30px',
+		paddingLeft: '10px',
+		wordBreak: 'break-all',
 		fontSize: '14px'
 	}
 }
@@ -69,6 +95,44 @@ const styleMap = {
 		padding: 2,
 	},
 };
+
+
+const FormItem = Form.Item
+const HorizontalLoginForm = Form.create()(React.createClass({
+	handleSubmit(e) {
+		e.preventDefault();
+		this.props.form.validateFields((err, values) => {
+			if (!err) {
+				const acc = localStorage.getItem("loginname") || ''
+				const data = {
+					id: this.props.state.topic.id,
+					accesstoken: acc,
+					content: values.content
+				}
+				this.props.addReplies(data)
+			}
+		});
+	},
+	render() {
+		const {
+			getFieldDecorator
+		} = this.props.form;
+		return (
+			<Form onSubmit={this.handleSubmit}>
+        <FormItem>
+          {getFieldDecorator('content', {
+            rules: [{ required: true, message: 'Please input your username!' }],
+          })(
+            <Input type="textarea" rows={4} placeholder="提交评论" />
+          )}
+        </FormItem>
+        <FormItem>
+          <Button type="primary" htmlType="submit">提交</Button>
+        </FormItem>
+      </Form>
+		);
+	},
+}));
 
 class Awesome extends React.Component {
 	constructor(props) {
@@ -309,6 +373,16 @@ class Detail extends React.Component {
 				topicDetail(route.params.id)
 			}
 		}
+		if (this.props.state.cnode.rep_succ !== nextProps.state.cnode.rep_succ && nextProps.state.cnode.rep_succ === 'success') {
+			message.success('评论成功')
+		}
+		if (this.props.state.cnode.topic.replies !== nextProps.state.cnode.topic.replies) {
+			const {
+				topicDetail,
+				route
+			} = this.props
+			topicDetail(route.params.id)
+		}
 	}
 
 	collect = () => {
@@ -327,20 +401,26 @@ class Detail extends React.Component {
 		this.props.cancelCollect(route.params.id, loginname)
 	}
 
+	getTime = (creattime) => {
+		let now = new Date()
+		const time = now - new Date(creattime)
+		const year = Math.floor(time / 1000 / 3600 / 24 / 365) + '年前'
+		const month = Math.floor(time / 1000 / 3600 / 24 / 30) + '个月前'
+		const day = Math.floor(time / 1000 / 3600 / 24) + '天前'
+		const hour = Math.floor(time / 1000 / 3600) + '小时前'
+		const min = Math.floor(time / 1000 / 60) + '分钟前'
+		let distance = (parseInt(year, 10) ? year : '') || (parseInt(month, 10) ? month : '') || (parseInt(day, 10) ? day : '') || (parseInt(hour, 10) ? hour : '') || (parseInt(min, 10) ? min : '') || '刚刚'
+		return distance
+	}
+
 	render() {
 		const {
 			state
 		} = this.props
 		const topic = state.cnode.topic
+		console.log(this.props)
 			//console.log(topic)
-		let now = new Date()
-		const time = now - new Date(topic.create_at)
-		const year = Math.floor(time / 1000 / 3600 / 24 / 365) + '年前'
-		const month = Math.floor(time / 1000 / 3600 / 24 / 30) + '个月前'
-		const day = Math.floor(time / 1000 / 3600 / 24) + '天前'
-		const hour = Math.floor(time / 1000 / 3600) + '小时前'
-		const min = Math.ceil(time / 1000 / 60) + '分钟前'
-		let distance = (parseInt(year, 10) ? year : '') || (parseInt(month, 10) ? month : '') || (parseInt(day, 10) ? day : '') || (parseInt(hour, 10) ? hour : '') || min
+		let distance = this.getTime(topic.create_at)
 		const content = topic.content || ''
 		const author = topic.author || ''
 		const tab = topic.tab || ''
@@ -351,11 +431,24 @@ class Detail extends React.Component {
 		const top = !topic.top || <span style={style.hot}>置顶</span>
 		const good = !topic.good || <span style={style.hot}>精华</span>
 		const topicContent = <ReactMarkdown source={content} />
-		const ansList = topic.replies || []
+		const _replies = topic.replies || []
 		const loginname = localStorage.getItem("loginname") || ''
+		const replies = _replies.map((value, index) => {
+			let apdistance = this.getTime(value.create_at)
+			return (
+				<div style={style.apl_box} key={value.id}>
+					<Link to={`/user/${value.author.loginname}`}><img style={style.imginfo} src={value.author.avatar_url} alt="avatar" /></Link>
+					<div style={style.apl_content}>
+						<Link to={`/user/${value.author.loginname}`}><span>{value.author.loginname}</span></Link>
+						<span>{index+1}楼•{apdistance}</span>
+					</div>
+					<div style={style.content_text}><ReactMarkdown source={value.content} /></div>
+				</div>
+			)
+		})
 		return (
 			<div style={style.body}>
-	    <h1 style={style.title}>{top}{good}{topic.title}</h1>
+	    <h1 style={style.title}>{top || good}{topic.title}</h1>
 	    <div style={style.info}>
 	      <span>•发表于&nbsp;{distance}</span>
 	      <span>•作者&nbsp;{author.loginname}</span>
@@ -365,7 +458,9 @@ class Detail extends React.Component {
 	    </div>
 	    {topicContent}
 	    <div style={style.content}>
-	      <p style={style.ansNumb}>{ansList.length}&nbsp;条回复</p>
+	      <p style={style.ansNumb}>{replies.length}&nbsp;条回复</p>
+	      {replies}
+	      <HorizontalLoginForm addReplies={this.props.addReplies} state={this.props.state.cnode}/>
 	      <Awesome />
 	    </div>
       </div>

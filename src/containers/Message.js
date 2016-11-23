@@ -65,13 +65,13 @@ export class Message extends React.Component {
 			<div>
 				<div style={style.content}>
 					<p style={style.title}><Link to={`/`}>主页</Link>/新消息
-						{messages.has_read.length===0 ? '' : <Button style={style.mark} type="primary" onClick={this.markAll}>标记全部已读</Button>}
+						{messages.has_not_read.length===0 ? '' : <Button style={style.mark} type="primary" onClick={this.markAll}>标记全部已读</Button>}
 					</p>
-						{messages.has_read.length===0 ? <div style={style.no}>无消息</div> : <div>lll</div>}
+						{messages.has_not_read.length===0 ? <div style={style.no}>无消息</div> : <div>lll</div>}
 					</div>
 					<div style={style.content}>
 						<p style={style.title}>过往消息</p>
-						{messages.has_not_read.length===0 ? <div style={style.no}>无消息</div> : <div>lll</div>}
+						{messages.has_read.length===0 ? <div style={style.no}>无消息</div> : <div>{messages.has_read[0].reply.content}</div>}
 					</div>
 			</div>
 		);

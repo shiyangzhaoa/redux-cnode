@@ -41,7 +41,7 @@ render(
     	</Route>
     	<Route path="/collect/:loginname" component={Collections} />
     	<Route path="/topic/:id" component={Detail} />
-    	<Route path="/userinfo/:loginname" component={UserInfo} />
+    	<Route path="/user/:loginname" component={UserInfo} />
     	<Route path="/message" component={Message} />
   	</Router>
   </Provider>,
