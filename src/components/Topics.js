@@ -64,7 +64,6 @@ export default class Topics extends React.Component {
 		const {
 			topics
 		} = this.props
-		console.log(this.props)
 		let block = topics.map((value, index) => {
 			let now = new Date()
 			const time = now - new Date(value.last_reply_at)

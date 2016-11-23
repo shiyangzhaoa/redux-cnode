@@ -235,7 +235,7 @@ export class Head extends React.Component {
 	    	
 	    }
 	    )}
-		{ !username || <Link to='/message' style={style.message} >未读信息{this.props.state.message.messageNum ? `$(this.props.state.message.messageNum)` : ''}</Link>}
+		{ !username || <Link to='/message' style={style.message} >未读信息{this.props.state.message.messageNum ? this.props.state.message.messageNum : ''}</Link>}
 			</div>
       		{this.props.children}
       	</div>

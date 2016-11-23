@@ -6,12 +6,13 @@ const initialState = {
 	tab: '',
 	username: '',
 	login: '',
-	collect: 'define',
+	collect: '',
 	collections: [],
 	userinfo: {},
 	isLoading: true,
 	userlogin: false,
-	rep_succ: ''
+	rep_succ: '',
+	star: ''
 }
 
 export default function cnode(state = initialState, action) {
@@ -64,7 +65,12 @@ export default function cnode(state = initialState, action) {
 				...state,
 				collect: action.collect
 			})
-		case 'COLLECT_CANCEL':
+		case 'COLLECT_REQUEST':
+			return ({
+				...state,
+				collect: action.collect
+			})
+		case 'COLLECT_FAIL':
 			return ({
 				...state,
 				collect: action.cancelCollect
@@ -83,6 +89,31 @@ export default function cnode(state = initialState, action) {
 			return ({
 				...state,
 				rep_succ: action.rep_succ
+			})
+		case 'REPLIE_REQUEST':
+			return ({
+				...state,
+				rep_succ: action.rep_succ
+			})
+		case 'REPLIE_FAIL':
+			return ({
+				...state,
+				rep_succ: action.rep_succ
+			})
+		case 'ADD_STAR_REQUEST':
+			return ({
+				...state,
+				star: action.star
+			})
+		case 'ADD_STAR_SUCC':
+			return ({
+				...state,
+				star: action.star
+			})
+		case 'ADD_STAR_FAIL':
+			return ({
+				...state,
+				star: action.star
 			})
 		default:
 			return state

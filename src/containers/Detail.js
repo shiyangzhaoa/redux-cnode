@@ -20,6 +20,10 @@ import {
 } from 'react-router'
 
 require("../public/draftjs.css")
+let editimg = require("../public/edit.png")
+let starimg = require("../public/star.png")
+let repliseimg = require("../public/replise.png")
+let deleteRepimg = require("../public/delete.png")
 
 
 //样式
@@ -84,6 +88,22 @@ const style = {
 		paddingLeft: '10px',
 		wordBreak: 'break-all',
 		fontSize: '14px'
+	},
+	option: {
+		position: 'absolute',
+		top: '3px',
+		right: '5px'
+	},
+	opt: {
+		display: 'inline-block',
+		width: '15px',
+		height: '15px',
+		cursor: 'pointer',
+		marginLeft: '10px'
+	},
+	star_num: {
+		position: 'absolute',
+		top: '-2px'
 	}
 }
 
@@ -365,23 +385,34 @@ class Detail extends React.Component {
 		const collectNext = nextProps.state.cnode.collect
 		console.log(collectNow, collectNext)
 		if (loginname) {
-			if (collectNow !== collectNext) {
+			if (collectNow !== collectNext && collectNext === 'success') {
 				const {
 					topicDetail,
 					route
 				} = nextProps
 				topicDetail(route.params.id)
 			}
-		}
-		if (this.props.state.cnode.rep_succ !== nextProps.state.cnode.rep_succ && nextProps.state.cnode.rep_succ === 'success') {
-			message.success('评论成功')
-		}
-		if (this.props.state.cnode.topic.replies !== nextProps.state.cnode.topic.replies) {
-			const {
-				topicDetail,
-				route
-			} = this.props
-			topicDetail(route.params.id)
+			if (this.props.state.cnode.rep_succ !== nextProps.state.cnode.rep_succ && nextProps.state.cnode.rep_succ === 'success') {
+				message.success('评论成功')
+				const {
+					topicDetail,
+					route
+				} = this.props
+				topicDetail(route.params.id)
+			} else if (this.props.state.cnode.rep_succ !== nextProps.state.cnode.rep_succ && (nextProps.state.cnode.rep_succ === 'fail')) {
+				message.error('请先登陆')
+			}
+			if (this.props.state.cnode.star !== nextProps.state.cnode.star && (nextProps.state.cnode.star === 'up' || nextProps.state.cnode.star === 'down')) {
+				const {
+					topicDetail,
+					route
+				} = this.props
+				topicDetail(route.params.id)
+			} else if (this.props.state.cnode.star !== nextProps.state.cnode.star && (nextProps.state.cnode.star === 'fail')) {
+				message.error('请先登陆')
+			}
+		} else if ((this.props.state.cnode.rep_succ !== nextProps.state.cnode.rep_succ && (nextProps.state.cnode.rep_succ === 'fail')) || (this.props.state.cnode.star !== nextProps.state.cnode.star && (nextProps.state.cnode.star === 'fail'))) {
+			message.error('请先登陆')
 		}
 	}
 
@@ -402,15 +433,20 @@ class Detail extends React.Component {
 	}
 
 	getTime = (creattime) => {
-		let now = new Date()
-		const time = now - new Date(creattime)
-		const year = Math.floor(time / 1000 / 3600 / 24 / 365) + '年前'
-		const month = Math.floor(time / 1000 / 3600 / 24 / 30) + '个月前'
-		const day = Math.floor(time / 1000 / 3600 / 24) + '天前'
-		const hour = Math.floor(time / 1000 / 3600) + '小时前'
-		const min = Math.floor(time / 1000 / 60) + '分钟前'
-		let distance = (parseInt(year, 10) ? year : '') || (parseInt(month, 10) ? month : '') || (parseInt(day, 10) ? day : '') || (parseInt(hour, 10) ? hour : '') || (parseInt(min, 10) ? min : '') || '刚刚'
-		return distance
+			let now = new Date()
+			const time = now - new Date(creattime)
+			const year = Math.floor(time / 1000 / 3600 / 24 / 365) + '年前'
+			const month = Math.floor(time / 1000 / 3600 / 24 / 30) + '个月前'
+			const day = Math.floor(time / 1000 / 3600 / 24) + '天前'
+			const hour = Math.floor(time / 1000 / 3600) + '小时前'
+			const min = Math.floor(time / 1000 / 60) + '分钟前'
+			let distance = (parseInt(year, 10) ? year : '') || (parseInt(month, 10) ? month : '') || (parseInt(day, 10) ? day : '') || (parseInt(hour, 10) ? hour : '') || (parseInt(min, 10) ? min : '') || '刚刚'
+			return distance
+		}
+		//点赞
+	addStar = (reid) => {
+		const acc = localStorage.getItem("loginname") || ''
+		this.props.addStar(acc, reid)
 	}
 
 	render() {
@@ -433,8 +469,10 @@ class Detail extends React.Component {
 		const topicContent = <ReactMarkdown source={content} />
 		const _replies = topic.replies || []
 		const loginname = localStorage.getItem("loginname") || ''
+		const that = this
 		const replies = _replies.map((value, index) => {
 			let apdistance = this.getTime(value.create_at)
+			const username = localStorage.getItem("username") || ''
 			return (
 				<div style={style.apl_box} key={value.id}>
 					<Link to={`/user/${value.author.loginname}`}><img style={style.imginfo} src={value.author.avatar_url} alt="avatar" /></Link>
@@ -443,6 +481,12 @@ class Detail extends React.Component {
 						<span>{index+1}楼•{apdistance}</span>
 					</div>
 					<div style={style.content_text}><ReactMarkdown source={value.content} /></div>
+					<div style={style.option}>
+						{username===value.author.loginname ? <img  src={editimg} alt="编辑" style={style.opt} /> : ''}
+						{username===value.author.loginname ? <img src={deleteRepimg} alt="删除" style={style.opt} /> : ''}
+						{username===value.author.loginname ? '' : <span><img src={starimg} onClick={that.addStar.bind(this, value.id)} alt="点赞" style={style.opt} /><span style={style.star_num}>{value.ups.length}</span></span>}
+						<img src={repliseimg} alt="回复" style={style.opt} />
+					</div>
 				</div>
 			)
 		})

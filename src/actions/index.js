@@ -75,6 +75,7 @@ export const userLogin = (data) => dispatch => {
     .then(function(response) {
       if (response.status === 200) {
         localStorage.setItem('loginname', data.accesstoken)
+        localStorage.setItem('username', response.data.loginname)
         dispatch({
           type: 'LOGIN_USER',
           name: response.data.loginname,
@@ -103,6 +104,10 @@ export const signOut = () => ({
 //收藏主体（）
 export const collect = (id, acc) => dispatch => {
   const url = `https://cnodejs.org/api/v1/topic_collect/collect`
+  dispatch({
+    type: 'COLLECT_REQUEST',
+    collect: 'request'
+  })
   axios.post(url, {
       accesstoken: acc,
       topic_id: id
@@ -111,12 +116,16 @@ export const collect = (id, acc) => dispatch => {
       if (response.status === 200) {
         dispatch({
           type: 'COLLECT_SUCC',
-          collect: 'collect'
+          collect: 'success'
         })
       }
     })
     .catch(function(error) {
       console.log(error);
+      dispatch({
+        type: 'COLLECT_FAIL',
+        collect: 'fail'
+      })
     })
 
 }
@@ -124,6 +133,10 @@ export const collect = (id, acc) => dispatch => {
 //取消收藏
 export const cancelCollect = (id, acc) => dispatch => {
   const url = `https://cnodejs.org/api/v1/topic_collect/de_collect`
+  dispatch({
+    type: 'COLLECT_REQUEST',
+    collect: 'request'
+  })
   axios.post(url, {
       accesstoken: acc,
       topic_id: id
@@ -131,13 +144,17 @@ export const cancelCollect = (id, acc) => dispatch => {
     .then(function(response) {
       if (response.status === 200) {
         dispatch({
-          type: 'COLLECT_CANCEL',
-          cancelCollect: 'noCollect'
+          type: 'COLLECT_SUCC',
+          collect: 'success'
         })
       }
     })
     .catch(function(error) {
       console.log(error);
+      dispatch({
+        type: 'COLLECT_FAIL',
+        collect: 'fail'
+      })
     })
 
 }
@@ -251,6 +268,10 @@ export const addReplies = (query =
     ...defaultRep,
     ...query
   }
+  dispatch({
+    type: 'REPLIE_REQUEST',
+    rep_succ: 'request'
+  })
   axios.post(url, queryNow)
     .then(function(response) {
       console.log(response)
@@ -263,5 +284,36 @@ export const addReplies = (query =
     })
     .catch(function(error) {
       console.log(error)
+      dispatch({
+        type: 'REPLIE_FAIL',
+        rep_succ: 'fail'
+      })
+    })
+}
+
+//点赞
+export const addStar = (acc, reid) => dispatch => {
+  const url = `https://cnodejs.org/api/v1/reply/${reid}/ups`
+  dispatch({
+    type: 'ADD_STAR_REQUEST',
+    star: 'request'
+  })
+  axios.post(url, {
+      accesstoken: acc
+    })
+    .then(function(response) {
+      if (response.status === 200) {
+        dispatch({
+          type: 'ADD_STAR_SUCC',
+          star: response.data.action
+        })
+      }
+    })
+    .catch(function(error) {
+      console.log(error)
+      dispatch({
+        type: 'ADD_STAR_FAIL',
+        star: 'fail'
+      })
     })
 }
