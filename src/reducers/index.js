@@ -1,8 +1,12 @@
-import { combineReducers } from 'redux'
+import {
+	combineReducers
+} from 'redux'
 import cnode from './cnode'
+import message from './message'
 
 const rootReducer = combineReducers({
-  cnode
+	cnode,
+	message
 })
 
 export default rootReducer

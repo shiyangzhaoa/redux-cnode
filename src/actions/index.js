@@ -161,18 +161,80 @@ export const getCollection = (username) => dispatch => {
 
 //通过loginname获取用户信息
 export const getUserInfo = (loginname) => dispatch => {
-  const url = `https://cnodejs.org/api/v1/user/${loginname}`
-  axios.get(url)
+    const url = `https://cnodejs.org/api/v1/user/${loginname}`
+    axios.get(url)
+      .then(function(response) {
+        if (response.status === 200) {
+          dispatch({
+            type: 'GET_USER_INFO',
+            userinfo: response.data.data
+          })
+        }
+      })
+      .catch(function(error) {
+        console.log(error)
+      })
+
+  }
+  //获取未读消息数目
+export const getMessageNum = (acc) => dispatch => {
+  const url = `https://cnodejs.org/api/v1/message/count`
+  axios.get(url, {
+      params: {
+        accesstoken: acc
+      }
+    })
     .then(function(response) {
       if (response.status === 200) {
         dispatch({
-          type: 'GET_USER_INFO',
-          userinfo: response.data.data
+          type: 'GET_MESSAGE_NUM',
+          messageNum: response.data.data
         })
       }
     })
     .catch(function(error) {
       console.log(error)
     })
+}
 
+//获取已读和未读消息
+export const getMessage = (acc) => dispatch => {
+  const url = `https://cnodejs.org/api/v1/messages`
+  axios.get(url, {
+      params: {
+        accesstoken: acc
+      }
+    })
+    .then(function(response) {
+      const messages = response.data.data
+      if (response.status === 200) {
+        dispatch({
+          type: 'GET_MESSAGE',
+          hasRead: messages.has_read_messages,
+          hasNotRead: messages.hasnot_read_messages
+        })
+      }
+    })
+    .catch(function(error) {
+      console.log(error)
+    })
+}
+
+//标记消息全部已读
+export const getMrakAll = (acc) => dispatch => {
+  const url = `https://cnodejs.org/api/v1/message/mark_all`
+  axios.post(url, {
+      accesstoken: acc
+    })
+    .then(function(response) {
+      console.log(response)
+      if (response.status === 200) {
+        dispatch({
+          type: 'MARK_ALL'
+        })
+      }
+    })
+    .catch(function(error) {
+      console.log(error)
+    })
 }

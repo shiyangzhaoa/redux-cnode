@@ -6,7 +6,7 @@ const initialState = {
 	tab: '',
 	username: '',
 	login: '',
-	collect: '',
+	collect: 'define',
 	collections: [],
 	userinfo: {},
 	isLoading: true,

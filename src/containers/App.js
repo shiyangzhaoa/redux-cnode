@@ -75,7 +75,6 @@ export class App extends React.Component {
       state,
       actions
     } = this.props
-    console.log(state)
     return (
       <Spin tip="Loading..." spinning={state.cnode.isLoading}>
       <div>

@@ -14,6 +14,7 @@ import App from './containers/App'
 import Detail from './containers/Detail'
 import Collections from './containers/Collections'
 import UserInfo from './containers/UserInfo'
+import Message from './containers/Message'
 import Head from './components/Head'
 import reducer from './reducers'
 import {
@@ -41,6 +42,7 @@ render(
     	<Route path="/collect/:loginname" component={Collections} />
     	<Route path="/topic/:id" component={Detail} />
     	<Route path="/userinfo/:loginname" component={UserInfo} />
+    	<Route path="/message" component={Message} />
   	</Router>
   </Provider>,
 	document.getElementById('root')

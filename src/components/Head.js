@@ -39,6 +39,14 @@ const style = {
 		margin: '0 10px',
 		transition: 'all 0.5s'
 	},
+	message: {
+		display: 'inline-block',
+		fontSize: '10px',
+		textAlign: 'center',
+		height: '30px',
+		lineHeight: '30px',
+		margin: '0 30px'
+	},
 	select: {
 		backgroundColor: '#57c5f7',
 		color: '#fff',
@@ -94,6 +102,7 @@ export class Head extends React.Component {
 			selected: slugParam,
 			loginname: loginname
 		})
+		this.props.getMessageNum(accesstoken)
 	}
 
 	componentWillReceiveProps = (nextProps) => {
@@ -104,7 +113,6 @@ export class Head extends React.Component {
 				selected: nextSlug
 			})
 		}
-		console.log(this.props.state.cnode.login, nextProps.state.cnode.login)
 		if (this.props.state.cnode.login !== nextProps.state.cnode.login && nextProps.state.cnode.login === 'success') {
 			this.setState({
 				form: false,
@@ -159,6 +167,7 @@ export class Head extends React.Component {
 	}
 
 	render() {
+		console.log(this.props)
 		const username = this.state.loginname
 		let that = this
 		const tabList = ['all', 'good', 'share', 'ask', 'job']
@@ -226,6 +235,7 @@ export class Head extends React.Component {
 	    	
 	    }
 	    )}
+		<Link to='/message' style={style.message} >未读信息{this.props.state.message.messageNum ? `$(this.props.state.message.messageNum)` : ''}</Link>
 			</div>
       		{this.props.children}
       	</div>

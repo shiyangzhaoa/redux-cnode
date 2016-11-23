@@ -12,11 +12,12 @@ const style = {
 	},
 	div: {
 		padding: '5px',
-		borderTop: '1px solid #ccc',
+		borderBottom: '1px solid #ccc',
 		width: '100%',
 		display: 'flex',
 		alignItems: 'center',
-		justifyContent: 'space-between'
+		justifyContent: 'space-between',
+		marginBottom: '10px'
 	},
 	numb: {
 		color: '#ff6666',
