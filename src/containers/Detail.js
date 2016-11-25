@@ -287,6 +287,7 @@ class Detail extends React.Component {
 			state
 		} = this.props
 		const topic = state.cnode.topic
+		let username = localStorage.getItem("username") || ''
 			//console.log(topic)
 		let distance = this.getTime(topic.create_at)
 		const content = topic.content || ''
@@ -340,7 +341,7 @@ class Detail extends React.Component {
 	      <span>•来自&nbsp;{end}</span>
 	      <Button style={style.collection} type="primary" disabled={!loginname} onClick={topic.is_collect ? this.cancelCollect : this.collect}>{topic.is_collect ? '取消收藏' : '收藏'}</Button>
 	    </div>
-	    <Link style={style.resive} to={`/createtopic/${topic.id}`}></Link>
+	    {username===author.loginname ? <Link style={style.resive} to={`/createtopic/${topic.id}`}></Link> : ''}
 	    {topicContent}
 	    <div style={style.content}>
 	      <p style={style.ansNumb}>{replies.length}&nbsp;条回复</p>
