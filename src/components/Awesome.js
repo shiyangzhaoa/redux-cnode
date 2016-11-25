@@ -25,9 +25,12 @@ export class Awesome extends React.Component {
 		};
 
 		this.focus = () => this.refs.editor.focus();
-		this.onChange = (editorState) => this.setState({
-			editorState
-		});
+		this.onChange = (editorState) => {
+			this.setState({
+				editorState
+			})
+			this.props.handleContent(editorState)
+		};
 
 		this.handleKeyCommand = (command) => this._handleKeyCommand(command);
 		this.toggleBlockType = (type) => this._toggleBlockType(type);
@@ -79,7 +82,7 @@ export class Awesome extends React.Component {
 
 		return (<div>
               <div className="control-box">
-              <h1 className="title">添加你的回复</h1>
+              <h1 className="title">发布主题</h1>
               <BlockStyleControls
                 editorState={editorState}
                 onToggle={this.toggleBlockType}

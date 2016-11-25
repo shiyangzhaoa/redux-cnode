@@ -12,7 +12,8 @@ const initialState = {
 	isLoading: true,
 	userlogin: false,
 	rep_succ: '',
-	star: ''
+	star: '',
+	create: ''
 }
 
 export default function cnode(state = initialState, action) {
@@ -114,6 +115,21 @@ export default function cnode(state = initialState, action) {
 			return ({
 				...state,
 				star: action.star
+			})
+		case 'CREATE_TOPIC_REQUEST':
+			return ({
+				...state,
+				create: action.create
+			})
+		case 'CREATE_TOPIC_SUCC':
+			return ({
+				...state,
+				create: action.create
+			})
+		case 'CREATE_TOPIC_FAIL':
+			return ({
+				...state,
+				create: action.create
 			})
 		default:
 			return state

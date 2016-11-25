@@ -38,6 +38,13 @@ const style = {
 		margin: '20px 0',
 		textAlign: 'center'
 	},
+	nav :{
+		width: '100%',
+		height: '40px',
+		fontSize: '14px',
+		lineHeight: '40px',
+		paddingLeft: '5px'
+	},
 	info: {
 		padding: '40px 10px',
 		color: '#838383'
@@ -276,8 +283,8 @@ class Detail extends React.Component {
 		const end2 = (tab === 'job') ? '招聘' : ''
 		const end3 = (tab === 'share') ? '分享' : ''
 		const end4 = (tab === 'good') ? '精华' : ''
-		const top = !topic.top || <span style={style.hot}>置顶</span>
-		const good = !topic.good || <span style={style.hot}>精华</span>
+		const top = topic.top ? <span style={style.hot}>置顶</span> : ''
+		const good = topic.good ? <span style={style.hot}>精华</span> : ''
 		const topicContent = <ReactMarkdown source={content} />
 		const _replies = topic.replies || []
 		const loginname = localStorage.getItem("loginname") || ''
@@ -314,6 +321,7 @@ class Detail extends React.Component {
 		})
 		return (
 			<div style={style.body}>
+		<p style={style.nav}><Link to={`/`}>主页</Link>/详情页</p>
 	    <h1 style={style.title}>{top || good}{topic.title}</h1>
 	    <div style={style.info}>
 	      <span>•发表于&nbsp;{distance}</span>

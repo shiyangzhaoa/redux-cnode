@@ -16,8 +16,7 @@ const style = {
 		width: '100%',
 		display: 'flex',
 		alignItems: 'center',
-		justifyContent: 'space-between',
-		marginBottom: '10px'
+		justifyContent: 'space-between'
 	},
 	numb: {
 		color: '#ff6666',
@@ -82,7 +81,7 @@ export default class Topics extends React.Component {
   				<div style={style.content}>
   				    <Link to={`/user/${value.author.loginname}`}><img alt="Avatar" style={style.img} src={value.author.avatar_url}/></Link>
 	  				<span style={style.numb}>{value.reply_count || '0'}/{value.visit_count || '0'}</span>
-	  				{(this.props.sluge==='all' && !value.top && !value.good) ? <span style={style.general}>{end3||end2||end1||'未知'}</span> : <span style={(end5||end4)?style.hot:style.none}>{end5||end4}</span>}
+	  				{(this.props.sluge==='all' && !value.top && !value.good) ? <span style={style.general}>{end3||end2||end1||'未知'}</span> : <span style={(end4||end5)?style.hot:style.none}>{end4||end5}</span>}
 	  				<Link to={`/topic/${value.id}`}>{value.title}</Link>
   				</div>
 	  			<span style={style.time}>{distance}</span>

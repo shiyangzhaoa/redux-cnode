@@ -317,3 +317,29 @@ export const addStar = (acc, reid) => dispatch => {
       })
     })
 }
+
+//新建主题
+export const createTopic = (query) => dispatch => {
+  const url = `https://cnodejs.org/api/v1/topics`
+  console.log(query)
+  dispatch({
+    type: 'CREATE_TOPIC_REQUEST',
+    create: 'request'
+  })
+  axios.post(url, query)
+    .then(function(response) {
+      if (response.status === 200) {
+        dispatch({
+          type: 'CREATE_TOPIC_SUCC',
+          create: 'success'
+        })
+      }
+    })
+    .catch(function(error) {
+      console.log(error)
+      dispatch({
+        type: 'CREATE_TOPIC_FAIL',
+        create: 'fail'
+      })
+    })
+}

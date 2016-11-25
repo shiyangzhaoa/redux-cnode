@@ -17,51 +17,56 @@ import {
 } from 'antd'
 const FormItem = Form.Item
 
+const react_img = require('../public/redux.png')
+
 const style = {
 	body: {
 		backgroundColor: '#fff',
-		padding: '20px',
-		width: '90%',
+		paddingBottom: '20px',
+		width: '70%',
 		borderRadius: '8px',
 		margin: '20px auto 20px'
 	},
 	header: {
-		height: '105px'
+		fontSize: '14px',
+		width: '100%',
+		borderRadius: '8px 8px 0 0',
+		backgroundColor: '#f6f6f6',
+		padding: '10px'
 	},
 	nav: {
-		display: 'inline-block',
-		fontSize: '20px',
-		color: '#57c5f7',
-		width: '50px',
-		textAlign: 'center',
-		height: '30px',
-		lineHeight: '30px',
+		color: '#80bd01',
+		padding: '3px 4px',
 		margin: '0 10px',
 		transition: 'all 0.5s'
 	},
 	message: {
-		display: 'inline-block',
-		fontSize: '10px',
-		textAlign: 'center',
-		height: '30px',
-		lineHeight: '30px',
-		margin: '0 30px'
+		color: '#888',
+		padding: '3px 4px',
+		margin: '0 15px'
+	},
+	create_topic: {
+		color: '#fff',
+		padding: '3px 4px',
+		margin: '0 15px',
+		backgroundColor: '#57c5f7',
+		borderRadius: '3px'
 	},
 	select: {
-		backgroundColor: '#57c5f7',
+		backgroundColor: '#80bd01',
 		color: '#fff',
-		borderRadius: '8px'
-	},
-	user: {
-		float: 'right'
+		borderRadius: '3px'
 	},
 	login: {
-		width: '106px',
-		float: 'right',
-		marginRight: '100px'
+		position: 'fixed',
+		right: '10px'
+
 	},
 	signIn: {
-		float: 'right'
+		position: 'fixed',
+		right: '0',
+		top: '80px',
+		zIndex: '99'
 	},
 	collectionList: {
 		padding: '5px 0',
@@ -69,6 +74,11 @@ const style = {
 		backgroundColor: '#f2f2f2',
 		marginTop: '10px',
 		borderRadius: '8px'
+	},
+	react: {
+		width: '147px',
+		height: '30px',
+		marginBottom: '-10px'
 	}
 }
 
@@ -202,43 +212,43 @@ export class Head extends React.Component {
 		}))
 		return (
 			<div style={style.body}>
-			<div style={style.header}>
 				<div style={style.login}>
-      		<BackTop visibilityHeight='100'/>
-      		<Popover
-	        	content={<a onClick={username ? this.signOut : this.signIn}>{username ? '退出' : '登陆'}</a>}
-	        	title="登陆/退出"
-	        	trigger="click"
-	        	visible={this.state.visible}
-	        	onVisibleChange={this.handleVisibleChange}
-	      	>
-	      	
-	        	<Button type="primary">{username || '未登录'}</Button>
-	        
-	      	</Popover>
-	      	<Spin tip="登陆中..." spinning={this.props.state.cnode.userlogin}>
-	      	{ !username || <Link to={`/collect/${username}`}><div style={style.collectionList}>收藏列表</div></Link>}
-	      	{ !username || <Link to={`/user/${username}`}><div style={style.collectionList}>个人信息</div></Link>}
-	      	</Spin>
-      	</div>
-      	<div style={style.signIn} >
-      		{this.state.form ? <HorizontalLoginForm /> : ''}
-      	</div>
-	    {tabList.map((value, index) => {
-	    		let selected = (this.state.selected === value) ? {...style.nav, ...style.select} : style.nav
-	    		const end1 = (value === 'ask') ? '问答' : ''
-  				const end2 = (value === 'job') ? '招聘' : ''
-  				const end3 = (value === 'share') ? '分享' : ''
-  				const end4 = (value === 'good') ? '精华' : ''
-  				const end5 = (value === 'all') ? '全部' : ''
-	    		return <Link style={selected} to={`/category/${value}`} key={index}>{end1||end2||end3||end4||end5}</Link>
-	    	
-	    }
-	    )}
-		{ !username || <Link to='/message' style={style.message} >未读信息{this.props.state.message.messageNum ? this.props.state.message.messageNum : ''}</Link>}
-			</div>
-      		{this.props.children}
-      	</div>
+      				<BackTop visibilityHeight='100'/>
+			      	<Popover
+				        content={<a onClick={username ? this.signOut : this.signIn}>{username ? '退出' : '登陆'}</a>}
+				        title="登陆/退出"
+				        trigger="click"
+				        visible={this.state.visible}
+				        onVisibleChange={this.handleVisibleChange}
+				      >
+	      				<Button type="primary">{username || '未登录'}</Button>
+	        		</Popover>
+	      			<Spin tip="登陆中..." spinning={this.props.state.cnode.userlogin}>
+	      			{ !username || <Link to={`/collect/${username}`}><div style={style.collectionList}>收藏列表</div></Link> }
+	      			{ !username || <Link to={`/user/${username}`}><div style={style.collectionList}>个人信息</div></Link> }
+	      			</Spin>
+      			</div>
+      			<div style={style.signIn} >
+      				{this.state.form ? <HorizontalLoginForm /> : ''}
+      			</div>
+      			<div style={style.header}>
+      				<Link to='/'><img style={style.react} src={react_img} alt="react" /></Link>
+      				{tabList.map((value, index) => {
+				    		let selected = (this.state.selected === value) ? {...style.nav, ...style.select} : style.nav
+				    		const end1 = (value === 'ask') ? '问答' : ''
+			  				const end2 = (value === 'job') ? '招聘' : ''
+			  				const end3 = (value === 'share') ? '分享' : ''
+			  				const end4 = (value === 'good') ? '精华' : ''
+			  				const end5 = (value === 'all') ? '全部' : ''
+				    		return <Link style={selected} to={`/category/${value}`} key={index}>{end1||end2||end3||end4||end5}</Link>
+				    	
+				    	}
+				    )}
+				    { !username || <Link to='/message' style={style.message} >未读信息{this.props.state.message.messageNum ? this.props.state.message.messageNum : ''}</Link>}
+				    { !username || <Link to='/createtopic' style={style.create_topic} >发布主题</Link>}
+      			</div>
+      			{this.props.children}
+      		</div>
 		)
 	}
 }

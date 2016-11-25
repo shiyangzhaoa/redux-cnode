@@ -17,6 +17,11 @@ import {
   browserHistory
 } from 'react-router'
 
+const style = {
+  pagination: {
+    margin: '20px 0 0 50px'
+  }
+}
 
 export class App extends React.Component {
   static propTypes = {
@@ -79,10 +84,10 @@ export class App extends React.Component {
       <Spin tip="Loading..." spinning={state.cnode.isLoading}>
       <div>
         <Topics topics={state.cnode.topicList} actions={actions} sluge={this.getSlug()} />
-        <div>
+        <div style={style.pagination}>
           <Pagination current={this.getPageNow()} pageSize={this.props.state.cnode.limit} total={500} onChange={this.onChange} />
-       </div>
-     </div>
+        </div>
+      </div>
      </Spin>
     )
   }

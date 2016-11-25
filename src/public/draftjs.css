@@ -1,18 +1,15 @@
 .title {
-  font-family: 'Raleway';
-  color: #000;
+  font-family: "Helvetica Neue","Luxi Sans","DejaVu Sans",Tahoma,"Hiragino Sans GB",STHeiti,sans-serif!important;
+  color: #08c;
 }
 
 .control-box {
   background: url(../../public/draftBg.jpg) center/ cover;
-  border: 1px solid #222;
   padding: 15px;
-  border-radius: 5px 5px 0 0;
 }
 
 .RichEditor-root {
   background: rgba(250, 250, 250, .7);
-  border: 1px solid #999;
   font-family: 'Source Serif Pro', serif;
   font-size: 14px;
   padding: 15px;
@@ -63,7 +60,7 @@
 }
 
 .RichEditor-styleButton {
-  color: #000;
+  color: #08c;
   cursor: pointer;
   display: inline-block;
   margin-right: 16px;
@@ -71,6 +68,6 @@
 }
 
 .RichEditor-activeButton {
-  color: orangered;
+  color: #fff;
   border-radius: 3px;
 }
