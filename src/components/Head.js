@@ -12,8 +12,7 @@ import {
 	Input,
 	Button,
 	Popover,
-	BackTop,
-	Spin
+	BackTop
 } from 'antd'
 const FormItem = Form.Item
 
@@ -23,7 +22,7 @@ const style = {
 	body: {
 		backgroundColor: '#fff',
 		paddingBottom: '20px',
-		width: '70%',
+		width: '90%',
 		borderRadius: '8px',
 		margin: '20px auto 20px'
 	},
@@ -59,7 +58,8 @@ const style = {
 	},
 	login: {
 		position: 'fixed',
-		right: '10px'
+		right: '10px',
+		zIndex: '99'
 
 	},
 	signIn: {
@@ -96,8 +96,8 @@ export class Head extends React.Component {
 	}
 
 	componentWillMount = () => {
-		let slugParam = this.getSlug()
-		let accesstoken = localStorage.getItem("loginname") || ''
+		const slugParam = this.getSlug()
+		const accesstoken = localStorage.getItem("loginname") || ''
 		if (accesstoken) {
 			const {
 				userLogin
@@ -106,13 +106,13 @@ export class Head extends React.Component {
 				accesstoken: accesstoken
 			}
 			userLogin(data)
+			this.props.getMessageNum(accesstoken)
 		}
 		const loginname = this.props.state.cnode.loginname
 		this.setState({
 			selected: slugParam,
 			loginname: loginname
 		})
-		this.props.getMessageNum(accesstoken)
 	}
 
 	componentWillReceiveProps = (nextProps) => {
@@ -223,10 +223,8 @@ export class Head extends React.Component {
 				      >
 	      				<Button type="primary">{username || '未登录'}</Button>
 	        		</Popover>
-	      			<Spin tip="登陆中..." spinning={this.props.state.cnode.userlogin}>
 	      			{ !username || <Link to={`/collect/${username}`}><div style={style.collectionList}>收藏列表</div></Link> }
 	      			{ !username || <Link to={`/user/${username}`}><div style={style.collectionList}>个人信息</div></Link> }
-	      			</Spin>
       			</div>
       			<div style={style.signIn} >
       				{this.state.form ? <HorizontalLoginForm /> : ''}
@@ -234,14 +232,9 @@ export class Head extends React.Component {
       			<div style={style.header}>
       				<Link to='/'><img style={style.react} src={react_img} alt="react" /></Link>
       				{tabList.map((value, index) => {
-				    		let selected = (this.state.selected === value) ? {...style.nav, ...style.select} : style.nav
-				    		const end1 = (value === 'ask') ? '问答' : ''
-			  				const end2 = (value === 'job') ? '招聘' : ''
-			  				const end3 = (value === 'share') ? '分享' : ''
-			  				const end4 = (value === 'good') ? '精华' : ''
-			  				const end5 = (value === 'all') ? '全部' : ''
-				    		return <Link style={selected} to={`/category/${value}`} key={index}>{end1||end2||end3||end4||end5}</Link>
-				    	
+				    	let selected = (this.state.selected === value) ? {...style.nav, ...style.select} : style.nav
+				    	const end = value.replace('ask', '问答').replace('job', '招聘').replace('share', '分享').replace('good', '精华').replace('all', '全部')
+				    	return <Link style={selected} to={`/category/${value}`} key={index}>{end}</Link>
 				    	}
 				    )}
 				    { !username || <Link to='/message' style={style.message} >未读信息{this.props.state.message.messageNum ? this.props.state.message.messageNum : ''}</Link>}

@@ -11,6 +11,7 @@ const initialState = {
 	userinfo: {},
 	isLoading: true,
 	userlogin: false,
+	mark_result: '',
 	rep_succ: '',
 	star: '',
 	create: ''
@@ -130,6 +131,36 @@ export default function cnode(state = initialState, action) {
 			return ({
 				...state,
 				create: action.create
+			})
+		case 'MARK_ALL_REQUEST':
+			return ({
+				...state,
+				mark_result: action.mark_result
+			})
+		case 'MARK_ALL_SUCC':
+			return ({
+				...state,
+				mark_result: action.mark_result
+			})
+		case 'MARK_ALL_FAIL':
+			return ({
+				...state,
+				mark_result: action.mark_result
+			})
+		case 'UPDATE_TOPIC_REQUEST':
+			return ({
+				...state,
+				create: action.update
+			})
+		case 'UPDATE_TOPIC_SUCC':
+			return ({
+				...state,
+				create: action.update
+			})
+		case 'UPDATE_TOPIC_FAIL':
+			return ({
+				...state,
+				create: action.update
 			})
 		default:
 			return state

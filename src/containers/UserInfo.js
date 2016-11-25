@@ -129,7 +129,7 @@ export class UserInfo extends React.Component {
 		const day = Math.floor(timeNow / 1000 / 3600 / 24) + '天前'
 		const hour = Math.floor(timeNow / 1000 / 3600) + '小时前'
 		const min = Math.ceil(timeNow / 1000 / 60) + '分钟前'
-		const distance = (parseInt(year, 10) ? year : '') || (parseInt(month, 10) ? month : '') || (parseInt(day, 10) ? day : '') || (parseInt(hour, 10) ? hour : '') || min
+		const distance = (parseInt(year, 10) ? year : '') || (parseInt(month, 10) ? month : '') || (parseInt(day, 10) ? day : '') || (parseInt(hour, 10) ? hour : '') || min || '刚刚'
 		return (
 			<div>
 				<div style={style.body}>

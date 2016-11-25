@@ -1,14 +1,14 @@
 import React from 'react'
 import {
-	render
+    render
 } from 'react-dom'
 import {
-	createStore,
-	applyMiddleware
+    createStore,
+    applyMiddleware
 } from 'redux'
 import thunk from 'redux-thunk'
 import {
-	Provider
+    Provider
 } from 'react-redux'
 import App from './containers/App'
 import Detail from './containers/Detail'
@@ -19,21 +19,21 @@ import CreateTopic from './containers/CreateTopic'
 import Head from './components/Head'
 import reducer from './reducers'
 import {
-	Router,
-	Route,
-	browserHistory,
-	IndexRoute
+    Router,
+    Route,
+    browserHistory,
+    IndexRoute
 } from 'react-router'
 
 import 'antd/dist/antd.css'
 
 const store = createStore(
-	reducer,
-	applyMiddleware(thunk)
+    reducer,
+    applyMiddleware(thunk)
 )
 
 render(
-	<Provider store={store}>
+    <Provider store={store}>
     <Router history={browserHistory}>
     	<Route path="/" component={Head} >
     		<IndexRoute component={App}/>
@@ -44,8 +44,8 @@ render(
     	<Route path="/topic/:id" component={Detail} />
     	<Route path="/user/:loginname" component={UserInfo} />
     	<Route path="/message" component={Message} />
-    	<Route path="/createtopic" component={CreateTopic} />
+    	<Route path="/createtopic(/:topicId)" component={CreateTopic} />
   	</Router>
   </Provider>,
-	document.getElementById('root')
+    document.getElementById('root')
 )

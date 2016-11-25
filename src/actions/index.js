@@ -241,17 +241,26 @@ export const getMessage = (acc) => dispatch => {
 export const getMrakAll = (acc) => dispatch => {
   const url = `https://cnodejs.org/api/v1/message/mark_all`
   axios.post(url, {
-      accesstoken: acc
+    accesstoken: acc
+  })
+  dispatch({
+      type: 'MARK_ALL_REQUEST',
+      mark_result: 'request'
     })
     .then(function(response) {
       if (response.status === 200) {
         dispatch({
-          type: 'MARK_ALL'
+          type: 'MARK_ALL_SUCC',
+          mark_result: 'success'
         })
       }
     })
     .catch(function(error) {
       console.log(error)
+      dispatch({
+        type: 'MARK_ALL_FAIL',
+        mark_result: 'fail'
+      })
     })
 }
 
@@ -321,7 +330,6 @@ export const addStar = (acc, reid) => dispatch => {
 //新建主题
 export const createTopic = (query) => dispatch => {
   const url = `https://cnodejs.org/api/v1/topics`
-  console.log(query)
   dispatch({
     type: 'CREATE_TOPIC_REQUEST',
     create: 'request'
@@ -340,6 +348,35 @@ export const createTopic = (query) => dispatch => {
       dispatch({
         type: 'CREATE_TOPIC_FAIL',
         create: 'fail'
+      })
+    })
+}
+
+//编辑主题
+export const updateTopic = (query, topic_id) => dispatch => {
+  const url = `https://cnodejs.org/api/v1/topics/update`
+  const post_data = {...query,
+    topic_id
+  }
+  console.log(post_data)
+  dispatch({
+    type: 'UPDATE_TOPIC_REQUEST',
+    update: 'request'
+  })
+  axios.post(url, post_data)
+    .then(function(response) {
+      if (response.status === 200) {
+        dispatch({
+          type: 'UPDATE_TOPIC_SUCC',
+          update: 'success'
+        })
+      }
+    })
+    .catch(function(error) {
+      console.log(error)
+      dispatch({
+        type: 'UPDATE_TOPIC_FAIL',
+        update: 'fail'
       })
     })
 }

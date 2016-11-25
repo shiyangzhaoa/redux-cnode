@@ -9,18 +9,22 @@ import {
 	Input,
 	Form,
 	message,
-	Mention 
+	Mention
 } from 'antd'
 import {
 	Link
 } from 'react-router'
 
-const { toString, toEditorState } = Mention
+const {
+	toString,
+	toEditorState
+} = Mention
 
-let editimg = require("../public/edit.png")
-let starimg = require("../public/star.png")
-let repliseimg = require("../public/replise.png")
-let deleteRepimg = require("../public/delete.png")
+const editimg = require("../public/edit.png")
+const starimg = require("../public/star.png")
+const repliseimg = require("../public/replise.png")
+const deleteRepimg = require("../public/delete.png")
+const revise = require("../public/revise.png")
 
 
 //样式
@@ -35,10 +39,10 @@ const style = {
 		boxShadow: '5px 5px 5px #ccc'
 	},
 	title: {
-		margin: '20px 0',
+		margin: '8px 0',
 		textAlign: 'center'
 	},
-	nav :{
+	nav: {
 		width: '100%',
 		height: '40px',
 		fontSize: '14px',
@@ -46,7 +50,6 @@ const style = {
 		paddingLeft: '5px'
 	},
 	info: {
-		padding: '40px 10px',
 		color: '#838383'
 	},
 	hot: {
@@ -108,6 +111,13 @@ const style = {
 	star_num: {
 		position: 'absolute',
 		top: '-2px'
+	},
+	resive: {
+		background: `url(${revise})`,
+		backgroundSize: 'cover',
+		display: 'block',
+		width: '20px',
+		height: '20px'
 	}
 }
 
@@ -248,13 +258,16 @@ class Detail extends React.Component {
 	}
 
 	submitrep = (index) => {
-		this.setState({
-			showRep: index
-		})
-	}
-	//指定回复
+			this.setState({
+				showRep: index
+			})
+		}
+		//指定回复
 	addtoRep = (topic) => {
-		const {state, addReplies} = this.props
+		const {
+			state,
+			addReplies
+		} = this.props
 		const acc = localStorage.getItem("loginname") || ''
 		const data = {
 			id: state.cnode.topic.id,
@@ -279,10 +292,7 @@ class Detail extends React.Component {
 		const content = topic.content || ''
 		const author = topic.author || ''
 		const tab = topic.tab || ''
-		const end1 = (tab === 'ask') ? '问答' : ''
-		const end2 = (tab === 'job') ? '招聘' : ''
-		const end3 = (tab === 'share') ? '分享' : ''
-		const end4 = (tab === 'good') ? '精华' : ''
+		const end = tab.replace('ask', '问答').replace('job', '招聘').replace('share', '分享').replace('good', '精华')
 		const top = topic.top ? <span style={style.hot}>置顶</span> : ''
 		const good = topic.good ? <span style={style.hot}>精华</span> : ''
 		const topicContent = <ReactMarkdown source={content} />
@@ -327,9 +337,10 @@ class Detail extends React.Component {
 	      <span>•发表于&nbsp;{distance}</span>
 	      <span>•作者&nbsp;{author.loginname}</span>
 	      <span>•{topic.visit_count}&nbsp;次浏览</span>
-	      <span>•来自&nbsp;{end1||end2||end3||end4}</span>
+	      <span>•来自&nbsp;{end}</span>
 	      <Button style={style.collection} type="primary" disabled={!loginname} onClick={topic.is_collect ? this.cancelCollect : this.collect}>{topic.is_collect ? '取消收藏' : '收藏'}</Button>
 	    </div>
+	    <Link style={style.resive} to={`/createtopic/${topic.id}`}></Link>
 	    {topicContent}
 	    <div style={style.content}>
 	      <p style={style.ansNumb}>{replies.length}&nbsp;条回复</p>

@@ -9,7 +9,7 @@ import {
 } from 'react-redux'
 import * as Actions from '../actions'
 import {
-	Button
+	message
 } from 'antd'
 import {
 	Link
@@ -38,7 +38,9 @@ const style = {
 		fontSize: '14px'
 	},
 	mark: {
-		float: 'right'
+		color: '#57c5f7',
+		marginLeft: '20px',
+		cursor: 'pointer'
 	},
 	has_read: {
 		padding: '10px',
@@ -54,6 +56,19 @@ export class Message extends React.Component {
 		this.props.actions.getMessage(acc)
 	}
 
+	componentWillReceiveProps = (nextProps) => {
+		const markNow = this.props.state.cnode.mark_result
+		const markNext = nextProps.state.cnode.mark_result
+		if (markNow !== markNext && markNext === 'success') {
+			message.success('已全部标记为已读')
+			const acc = localStorage.getItem("loginname") || ''
+			this.props.actions.getMessage(acc)
+		}
+		if (markNow !== markNext && markNext === 'fail') {
+			message.error('标记出错')
+		}
+	}
+
 	markAll = () => {
 		const acc = localStorage.getItem("loginname") || ''
 		this.props.actions.getMrakAll(acc)
@@ -67,20 +82,20 @@ export class Message extends React.Component {
 		console.log(messages)
 		const hasNotReads = messages.has_not_read.map((value) => {
 			return (
-				<div style={style.has_read} key={value.reply.id}><Link to={`/user/${value.author.loginname}`}>{value.author.loginname}</Link>在话题<Link to={`/topic/${value.topic.id}`}>{value.topic.title}</Link>中{value.type==='at' ? '@' : value.type}了你</div>
+				<div style={style.has_read} key={value.reply.id}><Link to={`/user/${value.author.loginname}`}>{value.author.loginname}</Link>在话题<Link to={`/topic/${value.topic.id}`}>{value.topic.title}</Link>中{value.type.replace('at', '@')}了你</div>
 
 			)
 		})
 		const hasReads = messages.has_read.map((value) => {
 			return (
-				<div style={style.has_read} key={value.reply.id}><Link to={`/user/${value.author.loginname}`}>{value.author.loginname}</Link>在话题<Link to={`/topic/${value.topic.id}`}>{value.topic.title}</Link>中{value.type==='at' ? '@' : value.type}了你</div>
+				<div style={style.has_read} key={value.reply.id}><Link to={`/user/${value.author.loginname}`}>{value.author.loginname}</Link>在话题<Link to={`/topic/${value.topic.id}`}>{value.topic.title}</Link>中{value.type.replace('at', '@')}了你</div>
 			)
 		})
 		return (
 			<div>
 				<div style={style.content}>
 					<p style={style.title}><Link to={`/`}>主页</Link>/新消息
-						{messages.has_not_read.length===0 ? '' : <Button style={style.mark} type="primary" onClick={this.markAll}>标记全部已读</Button>}
+						{messages.has_not_read.length===0 ? '' : <span style={style.mark} type="primary" onClick={this.markAll}>标记全部已读</span>}
 					</p>
 						{messages.has_not_read.length===0 ? <div style={style.no}>无消息</div> : <div>{hasNotReads}</div>}
 					</div>
