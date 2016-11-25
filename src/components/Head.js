@@ -134,7 +134,7 @@ export class Head extends React.Component {
 			visible: false
 		})
 		this.props.signOut()
-		localStorage.clear("loginname")
+		localStorage.clear("loginname", "username")
 	}
 
 	getSlug = () => {

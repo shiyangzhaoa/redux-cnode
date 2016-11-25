@@ -15,6 +15,7 @@ import Detail from './containers/Detail'
 import Collections from './containers/Collections'
 import UserInfo from './containers/UserInfo'
 import Message from './containers/Message'
+import CreateTopic from './containers/CreateTopic'
 import Head from './components/Head'
 import reducer from './reducers'
 import {
@@ -43,6 +44,7 @@ render(
     	<Route path="/topic/:id" component={Detail} />
     	<Route path="/user/:loginname" component={UserInfo} />
     	<Route path="/message" component={Message} />
+    	<Route path="/createtopic" component={CreateTopic} />
   	</Router>
   </Provider>,
 	document.getElementById('root')

@@ -61,7 +61,6 @@ export class Message extends React.Component {
 
 	render() {
 		const {
-			actions,
 			state
 		} = this.props
 		const messages = state.message

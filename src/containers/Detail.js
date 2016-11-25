@@ -8,18 +8,15 @@ import {
 	Button,
 	Input,
 	Form,
-	message
+	message,
+	Mention 
 } from 'antd'
-import {
-	Editor,
-	EditorState,
-	RichUtils
-} from 'draft-js'
 import {
 	Link
 } from 'react-router'
 
-require("../public/draftjs.css")
+const { toString, toEditorState } = Mention
+
 let editimg = require("../public/edit.png")
 let starimg = require("../public/star.png")
 let repliseimg = require("../public/replise.png")
@@ -107,16 +104,6 @@ const style = {
 	}
 }
 
-const styleMap = {
-	CODE: {
-		backgroundColor: 'rgba(0, 0, 0, 0.05)',
-		fontFamily: 'Source Code Pro',
-		fontSize: 16,
-		padding: 2,
-	},
-};
-
-
 const FormItem = Form.Item
 const HorizontalLoginForm = Form.create()(React.createClass({
 	handleSubmit(e) {
@@ -141,7 +128,7 @@ const HorizontalLoginForm = Form.create()(React.createClass({
 			<Form onSubmit={this.handleSubmit}>
         <FormItem>
           {getFieldDecorator('content', {
-            rules: [{ required: true, message: 'Please input your username!' }],
+            rules: [{ required: true, message: '请输入你套提交的评论!' }],
           })(
             <Input type="textarea" rows={4} placeholder="提交评论" />
           )}
@@ -154,221 +141,14 @@ const HorizontalLoginForm = Form.create()(React.createClass({
 	},
 }));
 
-class Awesome extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			editorState: EditorState.createEmpty(),
-		};
-
-		this.focus = () => this.refs.editor.focus();
-		this.onChange = (editorState) => this.setState({
-			editorState
-		});
-
-		this.handleKeyCommand = (command) => this._handleKeyCommand(command);
-		this.toggleBlockType = (type) => this._toggleBlockType(type);
-		this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
-	}
-
-	_handleKeyCommand(command) {
-		const {
-			editorState
-		} = this.state;
-		const newState = RichUtils.handleKeyCommand(editorState, command);
-		if (newState) {
-			this.onChange(newState);
-			return true;
-		}
-		return false;
-	}
-
-	_toggleBlockType(blockType) {
-		this.onChange(
-			RichUtils.toggleBlockType(
-				this.state.editorState,
-				blockType
-			)
-		);
-	}
-
-	_toggleInlineStyle(inlineStyle) {
-		this.onChange(
-			RichUtils.toggleInlineStyle(
-				this.state.editorState,
-				inlineStyle
-			)
-		);
-	}
-
-	render() {
-		const {
-			editorState
-		} = this.state;
-		console.log(editorState);
-		let className = 'RichEditor-editor';
-		var contentState = editorState.getCurrentContent();
-		if (!contentState.hasText()) {
-			if (contentState.getBlockMap().first().getType() !== 'unstyled') {
-				className += ' RichEditor-hidePlaceholder';
-			}
-		}
-
-		return (<div>
-              <div className="control-box">
-              <h1 className="title">添加你的回复</h1>
-              <BlockStyleControls
-                editorState={editorState}
-                onToggle={this.toggleBlockType}
-              />
-              <InlineStyleControls
-                editorState={editorState}
-                onToggle={this.toggleInlineStyle}
-              />
-        </div>
-      <div className="RichEditor-root">
-        
-              <div className={className} onClick={this.focus}>
-                <Editor
-                  blockStyleFn={getBlockStyle}
-                  customStyleMap={styleMap}
-                  editorState={editorState}
-                  handleKeyCommand={this.handleKeyCommand}
-                  onChange={this.onChange}
-                  ref="editor"
-                  spellCheck={true}
-                />
-              </div>
-            </div>
-        </div>);
-	}
-}
-
-
-function getBlockStyle(block) {
-	switch (block.getType()) {
-		case 'blockquote':
-			return 'RichEditor-blockquote';
-		default:
-			return null;
-	}
-}
-
-class StyleButton extends React.Component {
-	constructor() {
-		super();
-		this.onToggle = (e) => {
-			e.preventDefault();
-			this.props.onToggle(this.props.style);
-		};
-	}
-
-	render() {
-		let className = 'RichEditor-styleButton';
-		if (this.props.active) {
-			className += ' RichEditor-activeButton';
-		}
-
-		return (
-			<span className={className} onMouseDown={this.onToggle}>
-              {this.props.label}
-            </span>
-		);
-	}
-}
-
-const BLOCK_TYPES = [{
-	label: 'H1',
-	style: 'header-one'
-}, {
-	label: 'H2',
-	style: 'header-two'
-}, {
-	label: 'H3',
-	style: 'header-three'
-}, {
-	label: 'H4',
-	style: 'header-four'
-}, {
-	label: 'H5',
-	style: 'header-five'
-}, {
-	label: 'H6',
-	style: 'header-six'
-}, {
-	label: 'Blockquote',
-	style: 'blockquote'
-}, {
-	label: 'UL',
-	style: 'unordered-list-item'
-}, {
-	label: 'OL',
-	style: 'ordered-list-item'
-}, {
-	label: 'Code Block',
-	style: 'code-block'
-}, ];
-
-const BlockStyleControls = (props) => {
-	const {
-		editorState
-	} = props;
-	const selection = editorState.getSelection();
-	const blockType = editorState
-		.getCurrentContent()
-		.getBlockForKey(selection.getStartKey())
-		.getType();
-
-	return (
-		<div className="RichEditor-controls">
-            {BLOCK_TYPES.map((type) =>
-              <StyleButton
-                key={type.label}
-                active={type.style === blockType}
-                label={type.label}
-                onToggle={props.onToggle}
-                style={type.style}
-              />
-            )}
-          </div>
-	);
-};
-
-var INLINE_STYLES = [{
-	label: 'Bold',
-	style: 'BOLD'
-}, {
-	label: 'Italic',
-	style: 'ITALIC'
-}, {
-	label: 'Underline',
-	style: 'UNDERLINE'
-}, {
-	label: 'Monospace',
-	style: 'CODE'
-}, ];
-
-const InlineStyleControls = (props) => {
-	var currentStyle = props.editorState.getCurrentInlineStyle();
-	return (
-		<div className="RichEditor-controls">
-            {INLINE_STYLES.map(type =>
-              <StyleButton
-                key={type.label}
-                active={currentStyle.has(type.style)}
-                label={type.label}
-                onToggle={props.onToggle}
-                style={type.style}
-              />
-            )}
-          </div>
-	);
-};
-
 class Detail extends React.Component {
 	static propTypes = {
 		name: React.PropTypes.string
+	}
+
+	state = {
+		showRep: -1,
+		content: '',
 	}
 
 	componentWillMount = () => {
@@ -449,12 +229,44 @@ class Detail extends React.Component {
 		this.props.addStar(acc, reid)
 	}
 
+	onChange = (editorState) => {
+		let content = toString(editorState)
+		this.setState({
+			content: content
+		})
+
+	}
+	onSelect = (suggestion) => {
+		console.log('onSelect', suggestion)
+	}
+
+	submitrep = (index) => {
+		this.setState({
+			showRep: index
+		})
+	}
+	//指定回复
+	addtoRep = (topic) => {
+		const {state, addReplies} = this.props
+		const acc = localStorage.getItem("loginname") || ''
+		const data = {
+			id: state.cnode.topic.id,
+			accesstoken: acc,
+			content: this.state.content,
+			reply_id: topic.id
+		}
+		addReplies(data)
+		this.setState({
+			showRep: -1
+		})
+		console.log(topic)
+	}
+
 	render() {
 		const {
 			state
 		} = this.props
 		const topic = state.cnode.topic
-		console.log(this.props)
 			//console.log(topic)
 		let distance = this.getTime(topic.create_at)
 		const content = topic.content || ''
@@ -485,8 +297,18 @@ class Detail extends React.Component {
 						{username===value.author.loginname ? <img  src={editimg} alt="编辑" style={style.opt} /> : ''}
 						{username===value.author.loginname ? <img src={deleteRepimg} alt="删除" style={style.opt} /> : ''}
 						{username===value.author.loginname ? '' : <span><img src={starimg} onClick={that.addStar.bind(this, value.id)} alt="点赞" style={style.opt} /><span style={style.star_num}>{value.ups.length}</span></span>}
-						<img src={repliseimg} alt="回复" style={style.opt} />
+						<img src={repliseimg} alt="回复" style={style.opt} onClick={this.submitrep.bind(this, index)}/>
 					</div>
+					{this.state.showRep === index ? <div>
+						<Mention
+						    style={{ width: '100%', height: 100 }}
+						    onChange={that.onChange}
+						    defaultValue={toEditorState('@'+value.author.loginname)}
+						    suggestions={[value.author.loginname]}
+						    onSelect={that.onSelect}
+						  />
+						<Button type="primary" onClick={this.addtoRep.bind(this, value)}>提交</Button>
+					</div> : ''}
 				</div>
 			)
 		})
@@ -505,7 +327,6 @@ class Detail extends React.Component {
 	      <p style={style.ansNumb}>{replies.length}&nbsp;条回复</p>
 	      {replies}
 	      <HorizontalLoginForm addReplies={this.props.addReplies} state={this.props.state.cnode}/>
-	      <Awesome />
 	    </div>
       </div>
 		);
