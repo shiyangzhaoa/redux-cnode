@@ -67,13 +67,13 @@ export class Message extends React.Component {
 		console.log(messages)
 		const hasNotReads = messages.has_not_read.map((value) => {
 			return (
-				<div style={style.has_read} key={value.reply.id}><Link to={`/user/${value.author.loginname}`}>{value.author.loginname}</Link>在话题<Link to={`/topic/${value.topic.id}`}>{value.topic.title}</Link>中{value.type}了你</div>
+				<div style={style.has_read} key={value.reply.id}><Link to={`/user/${value.author.loginname}`}>{value.author.loginname}</Link>在话题<Link to={`/topic/${value.topic.id}`}>{value.topic.title}</Link>中{value.type==='at' ? '@' : value.type}了你</div>
 
 			)
 		})
 		const hasReads = messages.has_read.map((value) => {
 			return (
-				<div style={style.has_read} key={value.reply.id}><Link to={`/user/${value.author.loginname}`}>{value.author.loginname}</Link>在话题<Link to={`/topic/${value.topic.id}`}>{value.topic.title}</Link>中{value.type}了你</div>
+				<div style={style.has_read} key={value.reply.id}><Link to={`/user/${value.author.loginname}`}>{value.author.loginname}</Link>在话题<Link to={`/topic/${value.topic.id}`}>{value.topic.title}</Link>中{value.type==='at' ? '@' : value.type}了你</div>
 			)
 		})
 		return (
