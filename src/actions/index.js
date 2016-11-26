@@ -240,12 +240,12 @@ export const getMessage = (acc) => dispatch => {
 //标记消息全部已读
 export const getMrakAll = (acc) => dispatch => {
   const url = `https://cnodejs.org/api/v1/message/mark_all`
-  axios.post(url, {
-    accesstoken: acc
-  })
   dispatch({
-      type: 'MARK_ALL_REQUEST',
-      mark_result: 'request'
+    type: 'MARK_ALL_REQUEST',
+    mark_result: 'request'
+  })
+  axios.post(url, {
+      accesstoken: acc
     })
     .then(function(response) {
       if (response.status === 200) {

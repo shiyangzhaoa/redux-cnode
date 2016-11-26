@@ -81,6 +81,12 @@ const style = {
 		width: '147px',
 		height: '30px',
 		marginBottom: '-10px'
+	},
+	message_numb: {
+		padding: '1px 7px',
+		color: '#fff',
+		backgroundColor: '#80bd01',
+		borderRadius: '100%'
 	}
 }
 
@@ -238,7 +244,7 @@ export class Head extends React.Component {
 				    	return <Link style={selected} to={`/category/${value}`} key={index}>{end}</Link>
 				    	}
 				    )}
-				    { !username || <Link to='/message' style={style.message} >未读信息{this.props.state.message.messageNum ? this.props.state.message.messageNum : ''}</Link>}
+      				{ !username || <Link to='/message' style={style.message} >未读信息{this.props.state.message.messageNum ? <span style={style.message_numb}>{this.props.state.message.messageNum}</span> : ''}</Link>}
 				    { !username || <Link to='/createtopic' style={style.create_topic} >发布主题</Link>}
       			</div>
       			{this.props.children}
