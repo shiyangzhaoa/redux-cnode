@@ -2,7 +2,7 @@
 
 
 
-npm install
+### `npm install`
 
 ## 可使用命令
 
