@@ -296,6 +296,7 @@ class Detail extends React.Component {
 		const end = tab.replace('ask', '问答').replace('job', '招聘').replace('share', '分享').replace('good', '精华')
 		const top = topic.top ? <span style={style.hot}>置顶</span> : ''
 		const good = topic.good ? <span style={style.hot}>精华</span> : ''
+		console.log(content)
 		const topicContent = <ReactMarkdown source={content} />
 		const _replies = topic.replies || []
 		const loginname = localStorage.getItem("loginname") || ''

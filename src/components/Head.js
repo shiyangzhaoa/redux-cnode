@@ -12,7 +12,9 @@ import {
 	Input,
 	Button,
 	Popover,
-	BackTop
+	BackTop,
+	Spin,
+	message
 } from 'antd'
 const FormItem = Form.Item
 
@@ -97,42 +99,36 @@ export class Head extends React.Component {
 
 	componentWillMount = () => {
 		const slugParam = this.getSlug()
-		const accesstoken = localStorage.getItem("loginname") || ''
-		if (accesstoken) {
-			const {
-				userLogin
-			} = this.props
-			const data = {
-				accesstoken: accesstoken
-			}
-			userLogin(data)
-			this.props.getMessageNum(accesstoken)
-		}
-		const loginname = this.props.state.cnode.loginname
+		const username = localStorage.getItem("username") || ''
 		this.setState({
 			selected: slugParam,
-			loginname: loginname
+			loginname: username
 		})
 	}
 
 	componentWillReceiveProps = (nextProps) => {
-		let slug = nextProps.params.categorySlug
-		let nextSlug = slug ? slug : 'all'
+		const slug = nextProps.params.categorySlug
+		const nextSlug = slug ? slug : 'all'
+		const cnodeNow = this.props.state.cnode
+		const cnodeNext = nextProps.state.cnode
 		if (this.getSlug() !== nextSlug) {
 			this.setState({
 				selected: nextSlug
 			})
 		}
-		if (nextProps.state.cnode.login === 'success') {
+		if (cnodeNow.login !== cnodeNext.login && cnodeNext.login === 'success') {
+			message.success('登陆成功')
+			const username = localStorage.getItem("username") || ''
 			this.setState({
 				form: false,
-				loginname: nextProps.state.cnode.loginname
+				loginname: username
 			})
 		}
-		if (nextProps.state.cnode.login === 'fail') {
-			alert("access token错误")
+		if (cnodeNow.login !== cnodeNext.login && cnodeNext.login === 'fail') {
+			message.error('登陆失败')
 		}
-		if (nextProps.state.cnode.login === 'leave') {
+		if (cnodeNow.login !== cnodeNext.login && cnodeNext.login === 'leave') {
+			message.success('成功退出')
 			this.setState({
 				loginname: ''
 			})
@@ -177,7 +173,6 @@ export class Head extends React.Component {
 	}
 
 	render() {
-		console.log(this.props)
 		const username = this.state.loginname
 		let that = this
 		const tabList = ['all', 'good', 'share', 'ask', 'job']
@@ -213,6 +208,7 @@ export class Head extends React.Component {
 		return (
 			<div style={style.body}>
 				<div style={style.login}>
+					<Spin tip="Loading..." spinning={this.props.state.cnode.login==='request'}>
       				<BackTop visibilityHeight='100'/>
 			      	<Popover
 				        content={<a onClick={username ? this.signOut : this.signIn}>{username ? '退出' : '登陆'}</a>}
@@ -225,6 +221,7 @@ export class Head extends React.Component {
 	        		</Popover>
 	      			{ !username || <Link to={`/collect/${username}`}><div style={style.collectionList}>收藏列表</div></Link> }
 	      			{ !username || <Link to={`/user/${username}`}><div style={style.collectionList}>个人信息</div></Link> }
+	      			</Spin>
       			</div>
       			<div style={style.signIn} >
       				{this.state.form ? <HorizontalLoginForm /> : ''}

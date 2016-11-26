@@ -4,13 +4,11 @@ const initialState = {
 	limit: 0,
 	topic: {},
 	tab: '',
-	username: '',
 	login: '',
 	collect: '',
 	collections: [],
 	userinfo: {},
-	isLoading: true,
-	userlogin: false,
+	loading: '',
 	mark_result: '',
 	rep_succ: '',
 	star: '',
@@ -19,48 +17,49 @@ const initialState = {
 
 export default function cnode(state = initialState, action) {
 	switch (action.type) {
-		case 'GET_TOPICS':
+		case 'GET_TOPICS_SUCC':
 			return ({
 				...state,
 				topicList: action.list,
 				page: action.pageNumb,
 				limit: action.limit,
 				tab: action.tab,
-				isLoading: action.loading
+				loading: action.loading
 			})
-		case 'GET_TOPICS_LOADING':
+		case 'GET_TOPICS_REQUEST':
 			return ({
 				...state,
-				isLoading: action.loading
+				loading: action.loading
+			})
+		case 'GET_TOPICS_FAIL':
+			return ({
+				...state,
+				loading: action.loading
 			})
 		case 'GET_TOPIC_DETAIL':
 			return ({
 				...state,
 				topic: action.topic
 			})
-		case 'LOGIN_USER':
+		case 'LOGIN_USER_SUCC':
 			return ({
 				...state,
-				loginname: action.name,
-				login: action.end,
-				userlogin: action.login
+				login: action.login
 			})
-		case 'LOGIN_USER_LOADING':
+		case 'LOGIN_USER_REQUEST':
 			return ({
 				...state,
-				userlogin: action.login
+				login: action.login
 			})
-		case 'LOGIN_FAIL':
+		case 'LOGIN_USER_FAIL':
 			return ({
 				...state,
-				login: action.end,
-				userlogin: action.login
+				login: action.login
 			})
 		case 'SIGN_OUT':
 			return ({
 				...state,
-				login: action.status,
-				loginname: ''
+				login: action.status
 			})
 		case 'COLLECT_SUCC':
 			return ({

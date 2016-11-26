@@ -15,8 +15,8 @@ export const getTopics = (query = defaultQuery) => dispatch => {
   }
   console.log(postQuery)
   dispatch({
-    type: 'GET_TOPICS_LOADING',
-    loading: true
+    type: 'GET_TOPICS_REQUEST',
+    loading: 'request'
   })
   axios.get(url, {
       params: postQuery
@@ -25,17 +25,21 @@ export const getTopics = (query = defaultQuery) => dispatch => {
       topicList = response.data.data
       if (response.data.data) {
         dispatch({
-          type: 'GET_TOPICS',
+          type: 'GET_TOPICS_SUCC',
           list: topicList,
           pageNumb: postQuery.page,
           limit: postQuery.limit,
           tab: postQuery.tab,
-          loading: false
+          loading: 'success'
         })
       }
     })
     .catch(function(error) {
       console.log(error)
+      dispatch({
+        type: 'GET_TOPICS_FAIL',
+        loading: 'fail'
+      })
     })
 
 }
@@ -68,8 +72,8 @@ export const userLogin = (data) => dispatch => {
   const url = 'https://cnodejs.org/api/v1/accesstoken'
     //console.log(data)
   dispatch({
-    type: 'LOGIN_USER_LOADING',
-    login: true
+    type: 'LOGIN_USER_REQUEST',
+    login: 'request'
   })
   axios.post(url, data)
     .then(function(response) {
@@ -77,19 +81,16 @@ export const userLogin = (data) => dispatch => {
         localStorage.setItem('loginname', data.accesstoken)
         localStorage.setItem('username', response.data.loginname)
         dispatch({
-          type: 'LOGIN_USER',
-          name: response.data.loginname,
-          end: 'success',
-          login: false
+          type: 'LOGIN_USER_SUCC',
+          login: 'success'
         })
       }
     })
     .catch(function(error) {
       console.log(error)
       dispatch({
-        type: 'LOGIN_FAIL',
-        end: 'fail',
-        login: false
+        type: 'LOGIN_USER_FAIL',
+        login: 'fail'
       })
     })
 }

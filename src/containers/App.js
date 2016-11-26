@@ -11,7 +11,7 @@ import Topics from '../components/Topics'
 import * as Actions from '../actions'
 import {
   Pagination,
-  Spin
+  message
 } from 'antd'
 import {
   browserHistory
@@ -53,6 +53,11 @@ export class App extends React.Component {
         tab: nextSlug
       })
     }
+    const cnodeNow = this.props.state.cnode
+    const cnodeNext = nextProps.state.cnode
+    if (cnodeNow.loading !== cnodeNext.loading && cnodeNow.loading === 'fail') {
+      message.error('九条命全玩掉了，加载失败/(ㄒoㄒ)/~~')
+    }
   }
 
   getSlug = () => {
@@ -81,14 +86,12 @@ export class App extends React.Component {
       actions
     } = this.props
     return (
-      <Spin tip="Loading..." spinning={state.cnode.isLoading}>
       <div>
         <Topics topics={state.cnode.topicList} actions={actions} sluge={this.getSlug()} />
         <div style={style.pagination}>
           <Pagination current={this.getPageNow()} pageSize={this.props.state.cnode.limit} total={500} onChange={this.onChange} />
         </div>
       </div>
-     </Spin>
     )
   }
 }
