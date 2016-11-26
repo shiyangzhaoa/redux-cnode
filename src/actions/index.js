@@ -13,7 +13,6 @@ export const getTopics = (query = defaultQuery) => dispatch => {
   let postQuery = {...defaultQuery,
     ...query
   }
-  console.log(postQuery)
   dispatch({
     type: 'GET_TOPICS_REQUEST',
     loading: 'request'

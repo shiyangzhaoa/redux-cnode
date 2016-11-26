@@ -128,8 +128,9 @@ export class UserInfo extends React.Component {
 		const month = Math.floor(timeNow / 1000 / 3600 / 24 / 30) + '个月前'
 		const day = Math.floor(timeNow / 1000 / 3600 / 24) + '天前'
 		const hour = Math.floor(timeNow / 1000 / 3600) + '小时前'
-		const min = Math.ceil(timeNow / 1000 / 60) + '分钟前'
-		const distance = (parseInt(year, 10) ? year : '') || (parseInt(month, 10) ? month : '') || (parseInt(day, 10) ? day : '') || (parseInt(hour, 10) ? hour : '') || min || '刚刚'
+		const min = Math.floor(timeNow / 1000 / 60) + '分钟前'
+		const second = Math.floor(timeNow / 1000) + '秒前'
+		const distance = (parseInt(year, 10) ? year : '') || (parseInt(month, 10) ? month : '') || (parseInt(day, 10) ? day : '') || (parseInt(hour, 10) ? hour : '') || (parseInt(min, 10) ? min : '') || second
 		return (
 			<div>
 				<div style={style.body}>
@@ -143,7 +144,7 @@ export class UserInfo extends React.Component {
 							</div>
 							<p>{userinfo.score}&nbsp;积分</p>
 							<Link to={`/collect/${userinfo.loginname}`}><p>话题收藏</p></Link>
-							<p><a href={`www.github.com/${userinfo.githubUsername}`}>@{userinfo.githubUsername}</a></p>
+							{!userinfo.githubUsername || <p><a href={`www.github.com/${userinfo.githubUsername}`}>@{userinfo.githubUsername}</a></p>}
 							<p>注册时间&nbsp;{distance}</p>
 						</div>
 					</div>

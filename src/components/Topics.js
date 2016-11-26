@@ -70,13 +70,14 @@ export default class Topics extends React.Component {
 			const month = Math.floor(time / 1000 / 3600 / 24 / 30) + '个月前'
 			const day = Math.floor(time / 1000 / 3600 / 24) + '天前'
 			const hour = Math.floor(time / 1000 / 3600) + '小时前'
-			const min = (Math.floor(time / 1000 / 60) ? Math.floor(time / 1000 / 60) : 0) + '分钟前'
+			const min = Math.floor(time / 1000 / 60) + '分钟前'
+			const second = Math.floor(time / 1000) + '秒前'
 			const end1 = (value.tab === 'ask') ? '问答' : ''
 			const end2 = (value.tab === 'job') ? '招聘' : ''
 			const end3 = (value.tab === 'share') ? '分享' : ''
 			const end4 = (value.top === true) ? '置顶' : ''
 			const end5 = (value.good === true) ? '精华' : ''
-			let distance = (parseInt(year, 10) ? year : '') || (parseInt(month, 10) ? month : '') || (parseInt(day, 10) ? day : '') || (parseInt(hour, 10) ? hour : '') || min
+			const distance = (parseInt(year, 10) ? year : '') || (parseInt(month, 10) ? month : '') || (parseInt(day, 10) ? day : '') || (parseInt(hour, 10) ? hour : '') || (parseInt(min, 10) ? min : '') || second
 			return <div style={style.div} key={index}>
   				<div style={style.content}>
   				    <Link to={`/user/${value.author.loginname}`}><img alt="Avatar" style={style.img} src={value.author.avatar_url}/></Link>

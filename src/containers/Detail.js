@@ -50,7 +50,8 @@ const style = {
 		paddingLeft: '5px'
 	},
 	info: {
-		color: '#838383'
+		color: '#838383',
+		marginBottom: '10px'
 	},
 	hot: {
 		display: 'inline-block',
@@ -180,7 +181,6 @@ class Detail extends React.Component {
 		const loginname = localStorage.getItem("loginname") || ''
 		const collectNow = this.props.state.cnode.collect
 		const collectNext = nextProps.state.cnode.collect
-		console.log(collectNow, collectNext)
 		if (loginname) {
 			if (collectNow !== collectNext && collectNext === 'success') {
 				const {
@@ -237,7 +237,8 @@ class Detail extends React.Component {
 			const day = Math.floor(time / 1000 / 3600 / 24) + '天前'
 			const hour = Math.floor(time / 1000 / 3600) + '小时前'
 			const min = Math.floor(time / 1000 / 60) + '分钟前'
-			let distance = (parseInt(year, 10) ? year : '') || (parseInt(month, 10) ? month : '') || (parseInt(day, 10) ? day : '') || (parseInt(hour, 10) ? hour : '') || (parseInt(min, 10) ? min : '') || '刚刚'
+			const second = Math.ceil(time / 1000) + '秒前'
+			const distance = (parseInt(year, 10) ? year : '') || (parseInt(month, 10) ? month : '') || (parseInt(day, 10) ? day : '') || (parseInt(hour, 10) ? hour : '') || (parseInt(min, 10) ? min : '') || second
 			return distance
 		}
 		//点赞
@@ -279,7 +280,6 @@ class Detail extends React.Component {
 		this.setState({
 			showRep: -1
 		})
-		console.log(topic)
 	}
 
 	render() {
@@ -296,7 +296,6 @@ class Detail extends React.Component {
 		const end = tab.replace('ask', '问答').replace('job', '招聘').replace('share', '分享').replace('good', '精华')
 		const top = topic.top ? <span style={style.hot}>置顶</span> : ''
 		const good = topic.good ? <span style={style.hot}>精华</span> : ''
-		console.log(content)
 		const topicContent = <ReactMarkdown source={content} />
 		const _replies = topic.replies || []
 		const loginname = localStorage.getItem("loginname") || ''

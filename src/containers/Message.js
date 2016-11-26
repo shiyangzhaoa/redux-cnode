@@ -82,13 +82,14 @@ export class Message extends React.Component {
 		console.log(this.props)
 		const hasNotReads = messages.has_not_read.map((value) => {
 			return (
-				<div style={style.has_read} key={value.reply.id}><Link to={`/user/${value.author.loginname}`}>{value.author.loginname}</Link>在话题<Link to={`/topic/${value.topic.id}`}>{value.topic.title}</Link>中{value.type.replace('at', '@')}了你</div>
-
+				value.type === 'at' ?
+				<div style={style.has_read} key={value.reply.id}><Link to={`/user/${value.author.loginname}`}>{value.author.loginname}</Link>在话题<Link to={`/topic/${value.topic.id}`}>{value.topic.title}</Link>中{value.type.replace('at', '@')}了你</div> : <div style={style.has_read} key={value.reply.id}><Link to={`/user/${value.author.loginname}`}>{value.author.loginname}</Link>{value.type.replace('at', '@').replace('reply', '回复')}了你的话题<Link to={`/topic/${value.topic.id}`}>{value.topic.title}</Link></div>
 			)
 		})
 		const hasReads = messages.has_read.map((value) => {
 			return (
-				<div style={style.has_read} key={value.reply.id}><Link to={`/user/${value.author.loginname}`}>{value.author.loginname}</Link>在话题<Link to={`/topic/${value.topic.id}`}>{value.topic.title}</Link>中{value.type.replace('at', '@')}了你</div>
+				value.type === 'at' ?
+				<div style={style.has_read} key={value.reply.id}><Link to={`/user/${value.author.loginname}`}>{value.author.loginname}</Link>在话题<Link to={`/topic/${value.topic.id}`}>{value.topic.title}</Link>中{value.type.replace('at', '@')}了你</div> : <div style={style.has_read} key={value.reply.id}><Link to={`/user/${value.author.loginname}`}>{value.author.loginname}</Link>{value.type.replace('at', '@').replace('reply', '回复')}了你的话题<Link to={`/topic/${value.topic.id}`}>{value.topic.title}</Link></div>
 			)
 		})
 		return (

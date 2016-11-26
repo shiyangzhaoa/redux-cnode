@@ -48,7 +48,6 @@ export class Collections extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     const {
       state,
       actions
