@@ -100,6 +100,10 @@ export class Head extends React.Component {
 	componentWillMount = () => {
 		const slugParam = this.getSlug()
 		const username = localStorage.getItem("username") || ''
+		const accesstoken = localStorage.getItem("loginname") || ''
+		if (username) {
+			this.props.getMessageNum(accesstoken)
+		}
 		this.setState({
 			selected: slugParam,
 			loginname: username
