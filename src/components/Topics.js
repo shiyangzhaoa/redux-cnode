@@ -8,7 +8,7 @@ const style = {
 		display: 'inline-block',
 		width: '30px',
 		height: '30px',
-		borderRadius: '100%'
+		borderRadius: '3px'
 	},
 	div: {
 		padding: '5px',
