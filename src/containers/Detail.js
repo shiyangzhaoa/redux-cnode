@@ -84,7 +84,8 @@ const style = {
 	imginfo: {
 		width: '30px',
 		height: '30px',
-		float: 'left'
+		float: 'left',
+		borderRadius: '3px'
 	},
 	apl_box: {
 		padding: '10px',
@@ -301,6 +302,7 @@ class Detail extends React.Component {
 		const loginname = localStorage.getItem("loginname") || ''
 		const that = this
 		const replies = _replies.map((value, index) => {
+			console.log(value)
 			let apdistance = this.getTime(value.create_at)
 			const username = localStorage.getItem("username") || ''
 			return (

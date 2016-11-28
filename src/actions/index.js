@@ -277,14 +277,15 @@ export const addReplies = (query =
     ...defaultRep,
     ...query
   }
+  console.log(queryNow)
   dispatch({
     type: 'REPLIE_REQUEST',
     rep_succ: 'request'
   })
   axios.post(url, queryNow)
     .then(function(response) {
-      console.log(response)
       if (response.status === 200) {
+        console.log(response)
         dispatch({
           type: 'REPLIE_SUCC',
           rep_succ: 'success'
