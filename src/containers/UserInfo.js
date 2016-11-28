@@ -144,7 +144,7 @@ export class UserInfo extends React.Component {
 							</div>
 							<p>{userinfo.score}&nbsp;积分</p>
 							<Link to={`/collect/${userinfo.loginname}`}><p>话题收藏</p></Link>
-							{!userinfo.githubUsername || <p><a href={`www.github.com/${userinfo.githubUsername}`}>@{userinfo.githubUsername}</a></p>}
+							{!userinfo.githubUsername || <p><a href={`https://github.com/${userinfo.githubUsername}`}>@{userinfo.githubUsername}</a></p>}
 							<p>注册时间&nbsp;{distance}</p>
 						</div>
 					</div>
