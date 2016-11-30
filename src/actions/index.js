@@ -22,6 +22,7 @@ export const getTopics = (query = defaultQuery) => dispatch => {
     })
     .then(function(response) {
       topicList = response.data.data
+      console.log(topicList)
       if (response.data.data) {
         dispatch({
           type: 'GET_TOPICS_SUCC',

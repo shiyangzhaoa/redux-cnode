@@ -15,6 +15,8 @@ const initialState = {
 	create: ''
 }
 
+const bear = require('../public/bear.png')
+
 export default function cnode(state = initialState, action) {
 	switch (action.type) {
 		case 'GET_TOPICS_SUCC':
@@ -27,6 +29,9 @@ export default function cnode(state = initialState, action) {
 				loading: action.loading
 			})
 		case 'GET_TOPICS_REQUEST':
+			state.topicList.forEach(value => {
+				value.author.avatar_url = bear
+			})
 			return ({
 				...state,
 				loading: action.loading
